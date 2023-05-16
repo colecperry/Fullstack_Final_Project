@@ -9,29 +9,27 @@ from config import app, db, bcrypt
 
 class Dog(db.Model, SerializerMixin):
     __tablename__ = 'dogs'
-    serialize_rules = ()
+    serialize_rules = ('-users.dogs', '-messages.dog')
 
     id = db.Column(db.Integer, primary_key=True)
     seller_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     buyer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    dog_name = db.Column(db.String)
     dog_image = db.Column(db.String)
     dog_breed = db.Column(db.String)
-    dog_sub_breed = db.Column(db.String)
-    dog_age = db.Column(db.Integer)
+    dog_age = db.Column(db.String)
     dog_gender = db.Column(db.String)
-    dog_weight = db.Column(db.Integer)
+    dog_weight = db.Column(db.String)
     dog_color = db.Column(db.String)
     dog_price = db.Column(db.Integer)
     dog_description = db.Column(db.String)
     up_for_adoption = db.Column(db.Boolean)
     mother_name = db.Column(db.String)
     mother_breed = db.Column(db.String)
-    mother_sub_breed = db.Column(db.String)
-    mother_weight = db.Column(db.Integer)
+    mother_weight = db.Column(db.String)
     mother_age = db.Column(db.Integer)
     father_name = db.Column(db.String)
     father_breed = db.Column(db.String)
-    father_sub_breed = db.Column(db.String)
     father_weight = db.Column(db.Integer)
     father_age = db.Column(db.Integer)
 
@@ -39,11 +37,10 @@ class Dog(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     users = db.relationship('User', back_populates='dogs')
-    messages = association_proxy('users', 'messages')
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    serialize_rules = ()
+    serialize_rules = ('-dogs.users', '-messages.user')
 
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String)
@@ -60,21 +57,19 @@ class User(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     dogs = db.relationship('Dog', back_populates='users')
-    messages = db.realtionship('Message', back_populates='users')
 
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
-    serialize_rules = ()
+    serialize_rules = ('-user.messages', '-dog.messages')
 
     message_sender = db.Column(db.Integer, db.ForeignKey('users.id'))
     message_recipient = db.Column(db.Integer, db.ForeignKey('users.id'))
     message_body = db.Column(db.String)
+    dog_id = db.Column(db.Integer, db.ForeignKey('dogs.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    user = db.relationship('User', back_populates='messages')
-    dog = association_proxy('user', 'dogs')
 
 
 
