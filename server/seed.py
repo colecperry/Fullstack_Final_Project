@@ -1,8 +1,7 @@
 from random import randint, choice as rc
 from faker import Faker
 from app import app
-from models import db, Dog, User, Message
-# from regions import regions
+from models import db, Dog, User, Message, Favorite
 
 fake = Faker()
 
@@ -35,53 +34,59 @@ dog_hair_colors = [
 ]
 
 popular_dog_breeds = [
-    "Akita", "Alaskan Malamute", "American Bulldog", "American Bully", "American Eskimo Dog", "American Pit Bull Terrier", "Auggie", "Aussiedoodle", "Australian Shepherd", "Basset Hound", "Beagle", "Bernedoodle", "Bernese Mountain Dog", "Border Collie", "Boston Terrier", "Boxer", "Cavalier King Charles Spaniel", "Cavapoo", "Chihuahua", "Cocker Spaniel"
+    "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Australian Shepherd", "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman", "German Shepherd", "Husky", "Labradoodle", "Labrador", "Maltese", "Pitbull", "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
 ]
 
 breed_sub_breeds = {
     "Akita": [],
-    "Alaskan Malamute": [],
-    "American Bulldog": [],
-    "American Bully": [],
-    "American Eskimo Dog": [],
-    "American Pit Bull Terrier": [],
-    "Auggie": ["Australian Shepherd", "Corgi, Pembroke Welsh"],
-    "Aussiedoodle": ["Australian Shepherd", "Poodle"],
+    "Affenpinscher": [],
+    "Afghan Hound": [],
+    "Airdale": [],
     "Australian Shepherd": [],
-    "Basset Hound": [],
     "Beagle": [],
-    "Bernedoodle": ["Bernese Mountain Dog", "Poodle"],
-    "Bernese Mountain Dog": [],
-    "Border Collie": [],
-    "Boston Terrier": [],
     "Boxer": [],
-    "Cavalier King Charles Spaniel": [],
-    "Cavapoo": ["Cavalier King Charles Spaniel", "Poodle"],
     "Chihuahua": [],
-    "Cocker Spaniel": []
+    "Cockapoo": [],
+    "Dalmatian": [],
+    "Doberman": [],
+    "German Shepherd": [],
+    "Husky": [],
+    "Labradoodle": ["Labrador", "Poodle"],
+    "Labrador": [],
+    "Maltese": [],
+    "Pitbull": [],
+    "Pomeranian": [],
+    "Pug": [],
+    "Rottweiler": [],
+    "Shiba": [],
+    "Shihtzu": [],
+    "Spanish Waterdog": []
 }
 
 breed_descriptions = {
-    "Akita": "The Akita is a powerful and loyal breed that originated in Japan. They are known for their strong protective instincts and dignified presence.",
-    "Alaskan Malamute": "The Alaskan Malamute is a large and friendly breed that is bred for strength and endurance. They are often used as sled dogs in cold climates.",
-    "American Bulldog": "The American Bulldog is a muscular and athletic breed with a confident and friendly temperament. They are known for their loyalty and protective nature.",
-    "American Bully": "The American Bully is a strong and muscular breed with a gentle and friendly disposition. They make great family pets and are known for their loyalty.",
-    "American Eskimo Dog": "The American Eskimo Dog is an intelligent and energetic breed that is known for its striking white coat and playful personality.",
-    "American Pit Bull Terrier": "The American Pit Bull Terrier is a strong and agile breed, recognized for its loyalty and protective nature. They are known for their strong bonds with their families.",
-    "Auggie": "The Auggie is a crossbreed between an Australian Shepherd and a Corgi. They are intelligent and lively companions, often inheriting the herding instincts of their parent breeds.",
-    "Aussiedoodle": "The Aussiedoodle is a crossbreed between an Australian Shepherd and a Poodle. They are known for their intelligence, friendly nature, and hypoallergenic coat.",
-    "Australian Shepherd": "The Australian Shepherd is a highly intelligent and energetic breed. They are commonly used for herding and agility work and make loyal and devoted companions.",
-    "Basset Hound": "The Basset Hound is a scent hound breed known for its long ears, short legs, and excellent sense of smell. They have a friendly and laid-back temperament.",
-    "Beagle": "The Beagle is a friendly and curious breed, recognized for its exceptional tracking abilities and charming personality. They are great family pets and get along well with children.",
-    "Bernedoodle": "The Bernedoodle is a crossbreed between a Bernese Mountain Dog and a Poodle. They are known for their loyal and affectionate nature, as well as their low-shedding coat.",
-    "Bernese Mountain Dog": "The Bernese Mountain Dog is a large and gentle breed originating from Switzerland. They are known for their calm and loving temperament, making them excellent family pets.",
-    "Border Collie": "The Border Collie is an intelligent and agile breed, widely regarded as one of the most intelligent dog breeds. They are often used for herding livestock and excel in various dog sports.",
-    "Boston Terrier": "The Boston Terrier is a small and friendly breed with a charming and lively personality. They are often referred to as the 'American Gentleman' due to their tuxedo-like coat markings.",
-    "Boxer": "The Boxer is a medium-sized and muscular breed known for its playful and energetic nature. They are loyal and protective, making them great companions and family pets.",
-    "Cavalier King Charles Spaniel": "The Cavalier King Charles Spaniel is a small and affectionate breed with a regal and elegant appearance. They are known for their friendly and gentle temperament.",
-    "Cavapoo": "The Cavapoo is a crossbreed between a Cavalier King Charles Spaniel and a Poodle. They are intelligent, friendly, and often inherit the hypoallergenic coat of their Poodle parent.",
-    "Chihuahua": "The Chihuahua is a small and spirited breed known for its big personality. They are loyal and devoted to their owners and make excellent companions.",
-    "Cocker Spaniel": "The Cocker Spaniel is a medium-sized breed known for its beautiful silky coat and friendly nature. They are versatile dogs, excelling in various roles from companionship to hunting."
+    "Akita": "The Akita is a powerful and dignified breed known for its loyalty and courage. With a strong, muscular build and a thick double coat, they are well-suited for colder climates. Akitas are independent and make devoted companions and guardians.",
+    "Affenpinscher": "The Affenpinscher is a small but confident breed with a mischievous and comical personality. They have a distinctive wiry coat and a monkey-like expression that adds to their charm. Affenpinschers are spirited and intelligent, making them excellent watchdogs and delightful family pets.",
+    "Afghan Hound": "The Afghan Hound is a regal and elegant breed known for its graceful appearance and flowing coat. With a noble bearing and keen eyesight, they were originally bred for hunting in rugged terrains. Afghan Hounds are independent and affectionate, forming strong bonds with their families.",
+    "Airedale": "The Airedale Terrier, often called the King of Terriers, is a versatile and intelligent breed. They have a wiry coat and a distinctive beard, giving them a handsome and rugged look. Airedales are energetic and courageous, excelling in various activities such as obedience, agility, and even water sports.",
+    "Australian Shepherd": "The Australian Shepherd is a highly energetic and intelligent breed known for its herding abilities. With a medium-sized build and a striking coat of various colors, they are both beautiful and athletic. Australian Shepherds are loyal and trainable, making them excellent working dogs and active companions.",
+    "Beagle": "The Beagle is a friendly and merry breed famous for its keen sense of smell. With a compact build and expressive eyes, they possess an irresistible charm. Beagles are sociable and enjoy the company of humans and other dogs, making them popular family pets and great companions for outdoor adventures.",
+    "Boxer": "The Boxer is a medium-sized and muscular breed with a distinctive square-shaped head and strong jaw. They are known for their boundless energy and playful nature. Boxers are affectionate and protective, forming strong bonds with their families while also being patient and gentle with children.",
+    "Chihuahua": "The Chihuahua is a tiny and spirited breed that exudes personality. With a compact size and large, expressive eyes, they are irresistibly adorable. Chihuahuas are loyal and devoted to their owners, often forming strong bonds. Despite their small stature, they possess a courageous and confident spirit.",
+    "Cockapoo": "The Cockapoo is a delightful crossbreed between a Cocker Spaniel and a Poodle. They inherit the intelligence and low-shedding coat from their Poodle parent, combined with the friendly and affectionate nature of the Cocker Spaniel. Cockapoos are adaptable and make excellent companions for families of all sizes.",
+    "Dalmatian": "The Dalmatian is a unique and eye-catching breed known for its distinctive coat pattern of spots. They have a medium-sized, muscular build and an energetic and outgoing personality. Dalmatians are active and require regular exercise, making them well-suited for active individuals or families.",
+    "Doberman": "The Doberman is a sleek and powerful breed known for its loyalty and protective nature. With a well-muscled body and a confident stride, they make excellent guard dogs and family companions. Dobermans are intelligent and trainable, excelling in various activities such as obedience, agility, and even search and rescue.", 
+    "German Shepherd": "The German Shepherd is a versatile and highly trainable breed with a strong work ethic. They have a noble and dignified appearance, coupled with a loyal and protective nature. German Shepherds are often used as police and military dogs due to their intelligence, versatility, and ability to excel in various tasks.",
+    "Husky": "The Husky is a striking and energetic breed renowned for its endurance and beautiful coat. With a thick double coat, erect ears, and expressive eyes, they possess an alluring and captivating presence. Huskies are friendly and sociable, often forming strong bonds with their families while retaining a sense of independence.",
+    "Labradoodle": "The Labradoodle is a popular crossbreed between a Labrador Retriever and a Poodle. They combine the intelligence and trainability of the Poodle with the friendly and outgoing nature of the Labrador. Labradoodles are often low-shedding and make excellent companions for individuals with allergies or those seeking a family-friendly dog.", 
+    "Labrador": "The Labrador Retriever is a friendly and versatile breed known for its gentle nature and intelligence. With a sturdy build and an expressive face, they are both athletic and lovable. Labradors are renowned for their loyalty and adaptability, excelling as guide dogs, search and rescue dogs, and family pets.",
+    "Maltese": "The Maltese is a small and elegant breed known for its silky white coat and charming personality. With a compact size and round, dark eyes, they have an irresistible appeal. Maltese dogs are affectionate and thrive on companionship, making them ideal lap dogs and well-suited for apartment living.",
+    "Pitbull": "The Pitbull is a strong and muscular breed that is often misunderstood. With a powerful physique and a determined expression, they are loyal and protective of their families. Properly socialized and trained, Pitbulls can be loving and gentle companions, showing great loyalty and affection.",
+    "Pomeranian": "The Pomeranian is a small and fluffy breed full of personality and energy. With a luxurious double coat and a plumed tail, they are both adorable and regal. Pomeranians are lively and confident, often forming strong bonds with their owners and delighting them with their playful antics.",
+    "Pug": "The Pug is a charming and comical breed known for its wrinkled face and expressive eyes. With a compact and muscular body, they are both sturdy and affectionate. Pugs have a friendly and easygoing temperament, making them excellent companions for individuals of all ages.",
+    "Rottweiler": "The Rottweiler is a robust and confident breed with a noble and powerful presence. With a well-muscled body and a distinct black and tan coat, they are both imposing and loyal. Rottweilers are intelligent and versatile, excelling in tasks such as herding, search and rescue, and even therapy work.",
+    "Shiba": "The Shiba Inu is a spirited and independent breed hailing from Japan. With a compact and agile build, they possess a fox-like appearance and a confident demeanor. Shiba Inus are known for their intelligence and bold personality, making them a popular choice for experienced dog owners seeking a loyal companion.",
+    "Shih Tzu": "The Shih Tzu is a small and affectionate breed known for its long, flowing coat and friendly nature. With a sweet and expressive face, they capture the hearts of many. Shih Tzus are devoted and social, thriving on human companionship and making them wonderful family pets.",
+    "Spanish Waterdog": "The Spanish Waterdog is a versatile and intelligent breed originally bred for herding and retrieving in the Spanish countryside. With a curly and wooly coat, they are both hypoallergenic and distinctive in appearance. Spanish Waterdogs are active and trainable, excelling in various dog sports and forming strong bonds with their families."
 }
 
 
@@ -103,8 +108,7 @@ def seed_dogs():
         dog_description = breed_descriptions.get(dog_breed, "")
 
         new_dog = Dog(
-            seller_id=randint(1, 100),
-            buyer_id=None,
+            breeder_id=randint(1, 100),
             dog_name=dog_name,
             dog_image="",
             dog_breed=dog_breed,
@@ -146,27 +150,42 @@ def seed_users():
     db.session.commit()
 
 def seed_messages():
-        new_message1 = Message(
-            message_sender = 1,
-            message_recipient = 2,
-            message_body = "Hey, I'm interested in your dog! ",
-            dog_id = 1
+    new_message1 = Message(
+        message_sender = 1,
+        message_body = "Hey, I'm interested in your dog! ",
+        dog_id = 1
+    )
+    db.session.add(new_message1)
+    db.session.commit()
+
+def seed_favorites():
+    for i in range(500):
+        new_favorite = Favorite(
+            user_id = randint(1,100),
+            dog_id = randint(1,1000)
         )
-        new_message2 = Message(
-            message_sender = 2,
-            message_recipient = 1,
-            message_body = "Hi, thanks for reaching out! I'd be happy to assist",
-            dog_id = 1
-        )
-        new_message3 = Message(
-            message_sender = 1,
-            message_recipient = 2,
-            message_body= "Perfect, do you mind sending over some additional information?",
-            dog_id = 1
-        )
-        db.session.add(new_message1)
-        db.session.add(new_message2)
-        db.session.add(new_message3)
+        db.session.add(new_favorite)
+    db.session.commit()
+
+if __name__ == '__main__':
+
+    with app.app_context():
+        print('Clearing old data...')
+        Dog.query.delete()
+        User.query.delete()
+        Message.query.delete()
+        Favorite.query.delete()
         db.session.commit()
+        print('Seeding...')
+        seed_dogs()
+        print('Seeded dogs')
+        seed_users()
+        print('Seeded users')
+        seed_messages()
+        print('Seeded messages')
+        seed_favorites()
+        print('Seeded favorites')
+        print('Done!')
+
 
 

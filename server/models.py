@@ -7,13 +7,19 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 from config import app, db, bcrypt
 
+popular_dog_breeds = [
+    "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Australian Shepherd",
+    "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman",
+    "German Shepherd", "Husky", "Labradoodle", "Labrador", "Maltese", "Pitbull",
+    "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
+]
+
 class Dog(db.Model, SerializerMixin):
     __tablename__ = 'dogs'
-    serialize_rules = ('-users.dogs', '-messages.dog')
+    serialize_rules = ('-created_at', '-updated_at', '-user.dogs', '-messages.dog', '-favorite.dog')
 
     id = db.Column(db.Integer, primary_key=True)
-    seller_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    buyer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    breeder_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     dog_name = db.Column(db.String)
     dog_image = db.Column(db.String)
     dog_breed = db.Column(db.String)
@@ -36,11 +42,26 @@ class Dog(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    users = db.relationship('User', back_populates='dogs')
+    user = db.relationship('User', back_populates='dogs')
+    favorite = db.relationship('Favorite', back_populates='dog')
+    messages = db.relationship('Message', back_populates='dog')
+
+    @validates("dog_breed")
+    def validate_dog_breed(self, key, dog_breed):
+        if dog_breed in popular_dog_breeds:
+            return dog_breed
+        raise ValueError("Invalid dog breed")
+    
+    @validates("dog_gender")
+    def validate_dog_gender(self, key, dog_gender):
+        if dog_gender in ['M', 'F']:
+            return dog_gender
+        raise ValueError("Invalid dog gender. Must be 'M' or 'F'.")
+    
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    serialize_rules = ('-dogs.users', '-messages.user')
+    serialize_rules = ('-created_at', '-updated_at', '-dogs.user', '-messages.user', '-favorites.user')
 
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String)
@@ -56,19 +77,75 @@ class User(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    dogs = db.relationship('Dog', back_populates='users')
+    dogs = db.relationship('Dog', back_populates='user')
+    messages = db.relationship('Message', back_populates='user')
+    favorites = db.relationship('Favorite', back_populates='user')
+
+    @validates("user_name")
+    def validates_user_name(self, key, user_name):
+        if user_name:
+            if len(user_name) > 6:
+                return user_name
+            else:
+                raise ValueError("Username must be longer than 6 characters")
+        raise ValueError("Username cannot be blank")
+    
+    @validates("user_phone_number")
+    def validates_user_phone_number(self, key, user_phone_number):
+        if user_phone_number:
+            if len(user_phone_number) == 10:
+                return user_phone_number
+            else:
+                raise ValueError("Phone number must be 10 characters")
+        raise ValueError("Phone number cannot be blank")
+    
+    @validates("user_zip_code")
+    def validates_user_phone_number(self, key, user_zip_code):
+        if user_zip_code:
+            if len(user_zip_code) == 5:
+                return user_zip_code
+            else:
+                raise ValueError("Zip code must be 5 characters")
+        raise ValueError("Zip code cannot be blank")
+    
 
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
-    serialize_rules = ('-user.messages', '-dog.messages')
+    serialize_rules = ('-created_at', '-updated_at', '-user.messages', '-dog.messages')
 
-    message_sender = db.Column(db.Integer, db.ForeignKey('users.id'))
-    message_recipient = db.Column(db.Integer, db.ForeignKey('users.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    message_sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     message_body = db.Column(db.String)
     dog_id = db.Column(db.Integer, db.ForeignKey('dogs.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    user = db.relationship('User', back_populates='messages')
+    dog = db.relationship('Dog', back_populates='messages')
+
+    @validates("message_body")
+    def validates_message_body(self, key, message_body):
+        if message_body:
+            return message_body
+        raise ValueError("Message can not be blank")
+        
+
+class Favorite(db.Model, SerializerMixin):
+    __tablename__ = 'favorites'
+    serialize_rules = ('-created_at', '-updated_at', '-user.favorites', '-dog.favorite')
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    dog_id = db.Column(db.Integer, db.ForeignKey('dogs.id'))
+
+    user = db.relationship('User', back_populates='favorites')
+    dog = db.relationship('Dog', back_populates='favorite')
+
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+
 
 
 
