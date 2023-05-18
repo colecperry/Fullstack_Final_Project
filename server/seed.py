@@ -151,7 +151,7 @@ def seed_users():
 
 def seed_messages():
     new_message1 = Message(
-        message_sender = 1,
+        message_sender_id = 1,
         message_body = "Hey, I'm interested in your dog! ",
         dog_id = 1
     )

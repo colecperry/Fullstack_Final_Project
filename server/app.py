@@ -23,7 +23,6 @@ def dogs():
                 dog_name=form_data.get('dog_name'),
                 dog_image=form_data.get('dog_image'),
                 dog_breed=form_data.get('dog_breed'),
-                dog_name=form_data.get('dog_name'),
                 dog_age=form_data.get('dog_age'),
                 dog_gender=form_data.get('dog_gender'),
                 dog_weight=form_data.get('dog_weight'),
@@ -200,11 +199,11 @@ def messages():
         except ValueError as err:
             return {'error': '400: Validation Error'}, 400
         
-@app.route('/messages/<int:id>', methods=['GET', 'POST'])
+@app.route('/messages/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def messages_by_id(id):
 
     if request.method == 'GET':
-        message = Message.query.filter(User.id == id).first()
+        message = Message.query.filter(Message.id == id).first()
 
         if message:
             message_dict = message.to_dict(rules=())
@@ -214,25 +213,9 @@ def messages_by_id(id):
         
         else:
             return {'error': 'User not found'}, 404
-        
-    elif request.method == 'POST':
-        form_data = request.get_json()
 
-        try:
-            message = Message(
-                message_sender_id = form_data.get('message_sender_id'),
-                message_body = form_data.get('message_body'),
-                dog_id = form_data.get('dog_id')
-                )
-            
-            db.session.add(message)
-            db.session.commit()
-            return message.to_dict(rules=()), 201
         
-        except ValueError as err:
-            return {'error': '400: Validation Error'}, 400
-        
-@app.route('/favorites', methods=['GET', 'POST', 'DELETE'])
+@app.route('/favorites', methods=['GET', 'POST'])
 def favorites():
     if request.method == 'GET':
         favorites = Favorite.query.all()
@@ -240,22 +223,6 @@ def favorites():
         favorites_dict = [favorites.to_dict(rules=()) for favorite in favorites]
 
         return favorites_dict, 200
-    
-    elif request.method == 'POST':
-        form_data = request.get_json()
-
-        try:
-            favorite = Favorite(
-                user_id = form_data.get('user_id'),
-                dog_id = form_data.get('dog_id')
-            )
-            
-            db.session.add(favorite)
-            db.session.commit()
-            return favorite.to_dict(rules=()), 201
-        
-        except ValueError as err:
-            return {'error': '400: Validation Error'}, 400
         
     elif request.method == 'DELETE':
     
@@ -267,7 +234,7 @@ def favorites():
             return {}, 204
         return {"error": 'User not found'}, 404
     
-@app.route('/favorites/<int:id>', methods=['GET', 'POST', 'DELETE'])
+@app.route('/favorites/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def get_favorites_by_id(id):
     if request.method == 'GET':
         favorite = Favorite.query.filter(Favorite.id == id).first()
@@ -281,21 +248,27 @@ def get_favorites_by_id(id):
         else:
             return {'error': 'User not found'}, 404
         
-    elif request.method == 'POST':
-        form_data = request.get_json()
+    elif request.method == 'PATCH':
+        favorite = Favorite.query.filter(Favorite.id == id).first()
+        if favorite:
+            try:
+                form_data = request.get_json()
+                for attr in form_data:
+                    setattr(favorite, attr, form_data.get(attr))
 
-        try:
-            favorite = Favorite(
-                user_id = form_data.get('user_id'),
-                dog_id = form_data.get('dog_id')
+                db.session.add(favorite)
+                db.session.commit()
+
+                favorite_dict = favorite.to_dict(rules=())
+
+                response = make_response(
+                    favorite_dict,
+                    202
                 )
-            
-            db.session.add(favorite)
-            db.session.commit()
-            return favorite.to_dict(rules=()), 201
-        
-        except ValueError as err:
-            return {'error': '400: Validation Error'}, 400
+                return response
+            except:
+                return {'error': '400: Validation error'}, 400
+        return {'error': 'Favorite not found'}, 400
         
     elif request.method == 'DELETE':    
         favorite = Favorite.query.filter(Favorite.id == id).first()
@@ -305,19 +278,6 @@ def get_favorites_by_id(id):
             db.session.commit()
             return {}, 204
         return {"error": 'User not found'}, 404
-
-
-
-
-
-
-
-        
-
-
-
-
-
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
