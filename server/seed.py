@@ -139,13 +139,13 @@ def seed_users():
             user_name=fake.name(),
             user_image='https://cdn-icons-png.flaticon.com/512/1946/1946429.png',
             user_email=fake.email(),
-            _password_hash='testpassword',
             user_phone_number=fake.phone_number(),
             user_address=fake.street_address(),
             user_city=fake.city(),
             user_state=fake.state(),
             user_zip_code=fake.postcode()
         )
+        new_user.password_hash = new_user.user_email + 'passwordSalt'
         db.session.add(new_user)
     db.session.commit()
 

@@ -83,30 +83,45 @@ class User(db.Model, SerializerMixin):
 
     @validates("user_name")
     def validates_user_name(self, key, user_name):
-        if user_name:
-            if len(user_name) > 6:
-                return user_name
-            else:
-                raise ValueError("Username must be longer than 6 characters")
-        raise ValueError("Username cannot be blank")
+        if len(user_name) <= 6:
+            raise ValueError("Username must be longer than 6 characters")
+        return user_name
     
     @validates("user_phone_number")
     def validates_user_phone_number(self, key, user_phone_number):
         if user_phone_number:
-            if len(user_phone_number) == 10:
+            user_phone_number_str = str(user_phone_number)
+            if len(user_phone_number_str) == 10:
                 return user_phone_number
             else:
                 raise ValueError("Phone number must be 10 characters")
         raise ValueError("Phone number cannot be blank")
     
     @validates("user_zip_code")
-    def validates_user_phone_number(self, key, user_zip_code):
+    def validates_user_zip_code(self, key, user_zip_code):
         if user_zip_code:
-            if len(user_zip_code) == 5:
+            user_zip_code_str = str(user_zip_code)
+            if len(user_zip_code_str) == 5:
                 return user_zip_code
             else:
                 raise ValueError("Zip code must be 5 characters")
         raise ValueError("Zip code cannot be blank")
+    
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError('Password hashes may not be viewed.')
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(
+            password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+    
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))
+
+
     
 
 class Message(db.Model, SerializerMixin):
