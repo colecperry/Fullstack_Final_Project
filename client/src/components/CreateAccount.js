@@ -18,45 +18,54 @@ function CreateAccount() {
 
 
     const handleSubmit = async (event) => {
-        event.preventDefault(event)
-
+        event.preventDefault();
+    
         let newUser = {
-            userName: userName,
-            email: email,
-            password: password,
-            phoneNumber: phoneNumber,
-            address: address,
-            city: city,
-            state: state,
-            zipCode: zipCode
+            user_name: userName,
+            user_image: '',
+            user_email: email,
+            _password_hash: password,
+            user_phone_number: phoneNumber,
+            user_address: address,
+            user_city: city,
+            user_state: state,
+            user_zip_code: zipCode
+        };
+    
+        try {
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            });
+    
+            if (response.ok) {
+                const user = await response.json();
+                setUser(user);
+                // Redirect to the desired location using the `Navigate` component
+                return <Navigate to="/" />;
+            } else {
+                throw new Error('Failed to create user');
+            }
+        } catch (error) {
+            console.log(error);
+            // Handle the error condition
         }
-        
-        const response = await fetch('/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-            })
-            .then(resp => resp.json())
-            .then(user => setUser(user)
-            .then(<Navigate to="/" />))
-        }
+    };
 
 
     return (
         <div className="container">
             <Form onSubmit={(event) => handleSubmit(event)}>
             <Form.Group className="mb-3" controlId="formBasicName">
-                <Form.Label>Username</Form.Label>
-                <Form.Control value={userName} onChange={e => setUserName(e.target.value)} type="name" placeholder="Enter username" />
+                <Form.Label>Full Name</Form.Label>
+                <Form.Control value={userName} onChange={e => setUserName(e.target.value)} type="name" placeholder="Enter full name" />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
-                <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-                </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
