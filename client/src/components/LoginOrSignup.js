@@ -2,13 +2,15 @@ import React from "react";
 import Login from "./Login";
 import CreateAccount from "./CreateAccount";
 import { useState, useEffect } from "react";
+import { useRecoilState } from 'recoil'
+import { loginNotSignupState } from "../recoil/atoms"
 
-function LoginOrSignup({setUser}){
-const [loginNotSignup, setLoginNotSignup] = useState(true);
+function LoginOrSignup(){
+const [ loginNotSignup, setLoginNotSignup ] = useRecoilState(loginNotSignupState);
 
     return(
         <div>
-            {loginNotSignup ? <Login setLoginNotSignup={setLoginNotSignup} setUser={setUser} /> : <CreateAccount setLoginNotSignup={setLoginNotSignup} setUser={setUser} />}
+            {loginNotSignup ? <Login/> : <CreateAccount/>}
         </div>
     )
 }

@@ -2,8 +2,10 @@ import React, {useState, useEffect} from "react"
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { Navigate } from "react-router-dom"
+import { useSetRecoilState } from "recoil"
+import { userState } from "../recoil/atoms"
 
-function CreateAccount({setUser}) {
+function CreateAccount() {
     const [userName, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -12,6 +14,7 @@ function CreateAccount({setUser}) {
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [zipCode, setZipCode] = useState('')
+    const setUser = useSetRecoilState(userState)
 
 
     const handleSubmit = async (event) => {

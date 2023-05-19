@@ -3,9 +3,11 @@ import '../assets/App.css';
 import LoginOrSignup from './LoginOrSignup';
 import Home from './Home';
 import { Route, Routes, Navigate} from "react-router-dom";
+import { useRecoilState } from 'recoil'
+import { userState } from "../recoil/atoms"
 
 function App() {
-  const [user, setUser] = useState(null);
+const [ user, setUser ] = useRecoilState(userState);
 
   // useEffect(() => {
   //   // auto-login
@@ -20,7 +22,7 @@ function App() {
   // }, []);
 
 
-  if (!user) return <LoginOrSignup setUser={setUser}/>
+  if (!user) return <LoginOrSignup/>
 
   return (
     <div className="App">

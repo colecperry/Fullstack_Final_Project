@@ -2,11 +2,15 @@ import React, {useState, useEffect} from "react"
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import {Link, Navigate} from "react-router-dom"
+import { useSetRecoilState } from "recoil";
+import { loginNotSignupState, userState } from "../recoil/atoms";
 
-function Login({ setUser, setLoginNotSignup}) {
+function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
+    const setUser = useSetRecoilState(userState)
+    const setLoginNotSignup = useSetRecoilState(loginNotSignupState)
 
     function handleSubmit(e) {
         e.preventDefault()
