@@ -15,11 +15,11 @@ function Login({ setUser, setLoginNotSignup}) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ user_email:email, password:password }),
         }).then((r) => {
             if (r.ok) {
                 r.json().then((user) => setUser(user))
-                .then(<Navigate to="/home" />)
+                // .then(<Navigate to="/home" />)
             } else {
             r.json().then((err) => setErrors(err.errors))
             }

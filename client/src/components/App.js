@@ -7,26 +7,27 @@ import { Route, Routes, Navigate} from "react-router-dom";
 function App() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    // auto-login
-    fetch("/check_session").then((r) => {
-      if (r.ok) {
-        r.json().then((user) => setUser(user));
-      }
-    });
-    if(user){
-      <Navigate to="/" />
-    }
-  }, []);
+  // useEffect(() => {
+  //   // auto-login
+  //   fetch("/check_session").then((r) => {
+  //     if (r.ok) {
+  //       r.json().then((user) => setUser(user));
+  //     }
+  //   });
+  //   if(user){
+  //     <Navigate to="/home" />
+  //   }
+  // }, []);
 
 
   if (!user) return <LoginOrSignup setUser={setUser}/>
 
   return (
     <div className="App">
-      <Routes>
+      <Home/>
+      {/* <Routes>
         <Route path="/home" element={<> <Home user={user}/> </>} />
-      </Routes>
+      </Routes> */}
     </div>
   );
 }

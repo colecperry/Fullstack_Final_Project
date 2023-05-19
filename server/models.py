@@ -32,7 +32,7 @@ class Dog(db.Model, SerializerMixin):
     up_for_adoption = db.Column(db.Boolean)
     mother_name = db.Column(db.String)
     mother_breed = db.Column(db.String)
-    mother_weight = db.Column(db.String)
+    mother_weight = db.Column(db.Integer)
     mother_age = db.Column(db.Integer)
     father_name = db.Column(db.String)
     father_breed = db.Column(db.String)
@@ -61,7 +61,7 @@ class Dog(db.Model, SerializerMixin):
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    serialize_rules = ('-created_at', '-updated_at', '-dogs.user', '-messages.user', '-favorites.user')
+    serialize_rules = ('-created_at', '-updated_at', '-dogs.user', '-dogs.messages', '-dogs.favorite', '-messages.', '-favorites',)
 
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String)
@@ -87,15 +87,15 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Username must be longer than 6 characters")
         return user_name
     
-    @validates("user_phone_number")
-    def validates_user_phone_number(self, key, user_phone_number):
-        if user_phone_number:
-            user_phone_number_str = str(user_phone_number)
-            if len(user_phone_number_str) == 10:
-                return user_phone_number
-            else:
-                raise ValueError("Phone number must be 10 characters")
-        raise ValueError("Phone number cannot be blank")
+    # @validates("user_phone_number")
+    # def validates_user_phone_number(self, key, user_phone_number):
+    #     if user_phone_number:
+    #         user_phone_number_str = str(user_phone_number)
+    #         if len(user_phone_number_str) == 10:
+    #             return user_phone_number
+    #         else:
+    #             raise ValueError("Phone number must be 10 characters")
+    #     raise ValueError("Phone number cannot be blank")
     
     @validates("user_zip_code")
     def validates_user_zip_code(self, key, user_zip_code):

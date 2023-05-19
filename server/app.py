@@ -129,7 +129,7 @@ def users():
 def login():
     if request.method == 'POST':
         formData = request.get_json()
-        user = User.query.filter(User.username == formData['username']).first()
+        user = User.query.filter(User.user_email == formData['user_email']).first()
         if user and user.authenticate(formData['password']):
             #Add session cookie when logged in
             session['user_id'] = user.id
