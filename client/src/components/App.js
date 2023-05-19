@@ -9,17 +9,17 @@ import { userState } from "../recoil/atoms"
 function App() {
 const [ user, setUser ] = useRecoilState(userState);
 
-  // useEffect(() => {
-  //   // auto-login
-  //   fetch("/check_session").then((r) => {
-  //     if (r.ok) {
-  //       r.json().then((user) => setUser(user));
-  //     }
-  //   });
-  //   if(user){
-  //     <Navigate to="/home" />
-  //   }
-  // }, []);
+  useEffect(() => {
+    // auto-login
+    fetch("/check_session").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+    if(user){
+      <Navigate to="/home" />
+    }
+  }, []);
 
 
   if (!user) return <LoginOrSignup/>
@@ -27,9 +27,9 @@ const [ user, setUser ] = useRecoilState(userState);
   return (
     <div className="App">
       <Home/>
-      {/* <Routes>
-        <Route path="/home" element={<> <Home user={user}/> </>} />
-      </Routes> */}
+      <Routes>
+        <Route path="/home" element={<> <Home/> </>} />
+      </Routes>
     </div>
   );
 }
