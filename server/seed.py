@@ -2,6 +2,8 @@ from random import randint, choice as rc
 from faker import Faker
 from app import app
 from models import db, Dog, User, Message, Favorite
+from flask_login import current_user
+import ipdb;
 
 fake = Faker()
 
@@ -150,13 +152,27 @@ def seed_users():
     db.session.commit()
 
 def seed_messages():
-    new_message1 = Message(
-        message_sender_id = 1,
-        message_body = "Hey, I'm interested in your dog! ",
-        dog_id = 1
-    )
-    db.session.add(new_message1)
+    users = User.query.all()
+
+    for user in users:
+        new_message1 = Message(
+            message_sender_id = user.id,
+            message_body = "Hey, I'm interested in your dog! ",
+            dog_id = randint(1,1000)
+        )
+        db.session.add(new_message1)
     db.session.commit()
+
+# def seed_messages(user_id):
+#     dogs = Dog.query.all()
+#     for dog in dogs:
+#         new_message = Message(
+#             message_sender_id=user_id,
+#             message_body = "Hey, I'm interested in your dog! Could you please send me more information?",
+#             dog_id=dog.id,
+#         )
+#         db.session.add(new_message)
+#     db.session.commit()
 
 def seed_favorites():
     for i in range(500):
@@ -166,6 +182,7 @@ def seed_favorites():
         )
         db.session.add(new_favorite)
     db.session.commit()
+
 
 if __name__ == '__main__':
 
@@ -187,5 +204,6 @@ if __name__ == '__main__':
         print('Seeded favorites')
         print('Done!')
 
+        ipdb.set_trace()
 
 

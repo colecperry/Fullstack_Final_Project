@@ -10,7 +10,7 @@ def dogs():
     if request.method == 'GET':
         dogs = Dog.query.all()
 
-        dogs_dict = [dog.to_dict(rules=("-user", "-favorite", "-messages")) for dog in dogs]
+        dogs_dict = [dog.to_dict(rules=()) for dog in dogs]
 
         return dogs_dict, 200
     
@@ -41,7 +41,7 @@ def dogs():
             
             db.session.add(dog)
             db.session.commit()
-            return dog.to_dict(rules=("-user", "-favorite", "-messages")), 201
+            return dog.to_dict(rules=()), 201
         
         except ValueError as err:
             return {'error': '400: Validation Error'}, 400
@@ -53,7 +53,7 @@ def dogs_by_id(id):
         dog = Dog.query.filter(Dog.id == id).first()
 
         if dog:
-            dog_dict = dog.to_dict(rules=("-user", "-favorite", "-messages"))
+            dog_dict = dog.to_dict(rules=())
 
             response = make_response(dog_dict, 200)
             return response
@@ -72,7 +72,7 @@ def dogs_by_id(id):
                 db.session.add(dog)
                 db.session.commit()
 
-                dog_dict = dog.to_dict(rules=("-user", "-favorite", "-messages"))
+                dog_dict = dog.to_dict(rules=())
 
                 response = make_response(
                     dog_dict,
@@ -99,7 +99,7 @@ def users():
     if request.method == 'GET':
         users = User.query.all()
 
-        users_dict = [user.to_dict(rules=("-dogs", "-messages", "-favorites")) for user in users]
+        users_dict = [user.to_dict(rules=()) for user in users]
 
         return users_dict, 200
     elif request.method == 'POST':
@@ -192,7 +192,7 @@ def users_by_id(id):
         user = User.query.filter(User.id == id).first()
 
         if user:
-            user_dict = user.to_dict(rules=("-dogs", "-messages", "-favorites"))
+            user_dict = user.to_dict(rules=())
 
             response = make_response(user_dict, 200)
             return response
@@ -211,7 +211,7 @@ def users_by_id(id):
                 db.session.add(user)
                 db.session.commit()
 
-                user_dict = user.to_dict(rules=("-dogs", "-messages", "-favorites"))
+                user_dict = user.to_dict(rules=())
 
                 response = make_response(
                     user_dict,
@@ -237,7 +237,7 @@ def messages():
     if request.method == 'GET':
         messages = Message.query.all()
 
-        messages_dict = [message.to_dict(rules=("-user", "-dog")) for message in messages]
+        messages_dict = [message.to_dict(rules=()) for message in messages]
 
         return messages_dict, 200
     
@@ -253,7 +253,7 @@ def messages():
             
             db.session.add(message)
             db.session.commit()
-            return message.to_dict(rules=("-user", "-dog")), 201
+            return message.to_dict(rules=()), 201
         
         except ValueError as err:
             return {'error': '400: Validation Error'}, 400
@@ -265,7 +265,7 @@ def messages_by_id(id):
         message = Message.query.filter(Message.id == id).first()
 
         if message:
-            message_dict = message.to_dict(rules=("-user", "-dog"))
+            message_dict = message.to_dict(rules=())
 
             response = make_response(message_dict, 200)
             return response
@@ -279,7 +279,7 @@ def favorites():
     if request.method == 'GET':
         favorites = Favorite.query.all()
 
-        favorites_dict = [favorite.to_dict(rules=("-user", "-dog")) for favorite in favorites]
+        favorites_dict = [favorite.to_dict(rules=()) for favorite in favorites]
 
         return favorites_dict, 200
         
@@ -293,7 +293,7 @@ def favorites():
             
             db.session.add(favorite)
             db.session.commit()
-            return favorite.to_dict(rules=("-user", "-dog")), 201
+            return favorite.to_dict(rules=()), 201
         
         except ValueError as err:
             return {'error': '400: Validation Error'}, 400
@@ -304,7 +304,7 @@ def get_favorites_by_id(id):
         favorite = Favorite.query.filter(Favorite.id == id).first()
 
         if favorite:
-            favorite_dict = favorite.to_dict(rules=("-user", "-dog"))
+            favorite_dict = favorite.to_dict(rules=())
 
             response = make_response(favorite_dict, 200)
             return response
@@ -323,7 +323,7 @@ def get_favorites_by_id(id):
                 db.session.add(favorite)
                 db.session.commit()
 
-                favorite_dict = favorite.to_dict(rules=("-user", "-dog"))
+                favorite_dict = favorite.to_dict(rules=())
 
                 response = make_response(
                     favorite_dict,

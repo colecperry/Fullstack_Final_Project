@@ -16,7 +16,16 @@ popular_dog_breeds = [
 
 class Dog(db.Model, SerializerMixin):
     __tablename__ = 'dogs'
-    serialize_rules = ('-created_at', '-updated_at', '-user.dogs', '-messages.dog', '-favorite.dog')
+    serialize_rules = ('-created_at', 
+                    '-updated_at', 
+                    '-user.dogs',
+                    '-user.messages',
+                    '-user.favorites',
+                    '-favorite.user',
+                    '-favorite.dog',
+                    '-messages.user', 
+                    '-messages.dog', 
+                    )
 
     id = db.Column(db.Integer, primary_key=True)
     breeder_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -61,7 +70,15 @@ class Dog(db.Model, SerializerMixin):
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    serialize_rules = ('-created_at', '-updated_at', '-dogs.user', '-dogs.messages', '-dogs.favorite', '-messages.', '-favorites',)
+    serialize_rules = ('-created_at', 
+                    '-updated_at', 
+                    '-dogs.user', 
+                    '-dogs.messages', 
+                    '-dogs.favorite', 
+                    '-messages.user', 
+                    '-messages.dog', 
+                    '-favorites.user',
+                    '-favorites.dog')
 
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String)
@@ -126,7 +143,14 @@ class User(db.Model, SerializerMixin):
 
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
-    serialize_rules = ('-created_at', '-updated_at', '-user.messages', '-dog.messages')
+    serialize_rules = ('-created_at',
+                    '-updated_at',
+                    '-user.messages',
+                    '-user.dogs',
+                    '-user.favorites',
+                    '-dog.user',
+                    '-dog.favorite',
+                    '-dog.messages')
 
     id = db.Column(db.Integer, primary_key=True)
     message_sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -148,7 +172,15 @@ class Message(db.Model, SerializerMixin):
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
-    serialize_rules = ('-created_at', '-updated_at', '-user.favorites', '-dog.favorite')
+    serialize_rules = ('-created_at',
+                    '-updated_at', 
+                    '-user.favorites',
+                    '-user.messages',
+                    '-user.dogs',
+                    '-dog.favorite',
+                    '-dog.user',
+                    '-dog.messages'
+                    )
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
