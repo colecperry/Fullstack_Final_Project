@@ -9,3 +9,8 @@ export const loginNotSignupState = atom({
     key: 'loginNotSignupState',
     default: true
 })
+
+export const dogsState = atom({
+    key: 'dogsState',
+    default: []
+})
