@@ -36,7 +36,7 @@ dog_hair_colors = [
 ]
 
 popular_dog_breeds = [
-    "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Australian Shepherd", "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman", "German Shepherd", "Husky", "Labradoodle", "Labrador", "Maltese", "Pitbull", "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
+    "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman", "Husky", "Labradoodle", "Labrador", "Maltese", "Pitbull", "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
 ]
 
 breed_sub_breeds = {
@@ -44,14 +44,12 @@ breed_sub_breeds = {
     "Affenpinscher": [],
     "Afghan Hound": [],
     "Airdale": [],
-    "Australian Shepherd": [],
     "Beagle": [],
     "Boxer": [],
     "Chihuahua": [],
     "Cockapoo": [],
     "Dalmatian": [],
     "Doberman": [],
-    "German Shepherd": [],
     "Husky": [],
     "Labradoodle": ["Labrador", "Poodle"],
     "Labrador": [],
@@ -70,14 +68,12 @@ breed_descriptions = {
     "Affenpinscher": "The Affenpinscher is a small but confident breed with a mischievous and comical personality. They have a distinctive wiry coat and a monkey-like expression that adds to their charm. Affenpinschers are spirited and intelligent, making them excellent watchdogs and delightful family pets.",
     "Afghan Hound": "The Afghan Hound is a regal and elegant breed known for its graceful appearance and flowing coat. With a noble bearing and keen eyesight, they were originally bred for hunting in rugged terrains. Afghan Hounds are independent and affectionate, forming strong bonds with their families.",
     "Airedale": "The Airedale Terrier, often called the King of Terriers, is a versatile and intelligent breed. They have a wiry coat and a distinctive beard, giving them a handsome and rugged look. Airedales are energetic and courageous, excelling in various activities such as obedience, agility, and even water sports.",
-    "Australian Shepherd": "The Australian Shepherd is a highly energetic and intelligent breed known for its herding abilities. With a medium-sized build and a striking coat of various colors, they are both beautiful and athletic. Australian Shepherds are loyal and trainable, making them excellent working dogs and active companions.",
     "Beagle": "The Beagle is a friendly and merry breed famous for its keen sense of smell. With a compact build and expressive eyes, they possess an irresistible charm. Beagles are sociable and enjoy the company of humans and other dogs, making them popular family pets and great companions for outdoor adventures.",
     "Boxer": "The Boxer is a medium-sized and muscular breed with a distinctive square-shaped head and strong jaw. They are known for their boundless energy and playful nature. Boxers are affectionate and protective, forming strong bonds with their families while also being patient and gentle with children.",
     "Chihuahua": "The Chihuahua is a tiny and spirited breed that exudes personality. With a compact size and large, expressive eyes, they are irresistibly adorable. Chihuahuas are loyal and devoted to their owners, often forming strong bonds. Despite their small stature, they possess a courageous and confident spirit.",
     "Cockapoo": "The Cockapoo is a delightful crossbreed between a Cocker Spaniel and a Poodle. They inherit the intelligence and low-shedding coat from their Poodle parent, combined with the friendly and affectionate nature of the Cocker Spaniel. Cockapoos are adaptable and make excellent companions for families of all sizes.",
     "Dalmatian": "The Dalmatian is a unique and eye-catching breed known for its distinctive coat pattern of spots. They have a medium-sized, muscular build and an energetic and outgoing personality. Dalmatians are active and require regular exercise, making them well-suited for active individuals or families.",
     "Doberman": "The Doberman is a sleek and powerful breed known for its loyalty and protective nature. With a well-muscled body and a confident stride, they make excellent guard dogs and family companions. Dobermans are intelligent and trainable, excelling in various activities such as obedience, agility, and even search and rescue.", 
-    "German Shepherd": "The German Shepherd is a versatile and highly trainable breed with a strong work ethic. They have a noble and dignified appearance, coupled with a loyal and protective nature. German Shepherds are often used as police and military dogs due to their intelligence, versatility, and ability to excel in various tasks.",
     "Husky": "The Husky is a striking and energetic breed renowned for its endurance and beautiful coat. With a thick double coat, erect ears, and expressive eyes, they possess an alluring and captivating presence. Huskies are friendly and sociable, often forming strong bonds with their families while retaining a sense of independence.",
     "Labradoodle": "The Labradoodle is a popular crossbreed between a Labrador Retriever and a Poodle. They combine the intelligence and trainability of the Poodle with the friendly and outgoing nature of the Labrador. Labradoodles are often low-shedding and make excellent companions for individuals with allergies or those seeking a family-friendly dog.", 
     "Labrador": "The Labrador Retriever is a friendly and versatile breed known for its gentle nature and intelligence. With a sturdy build and an expressive face, they are both athletic and lovable. Labradors are renowned for their loyalty and adaptability, excelling as guide dogs, search and rescue dogs, and family pets.",
@@ -94,7 +90,7 @@ breed_descriptions = {
 
 def seed_dogs():
     random_price = randint(20, 100) * 50
-    for i in range(10):
+    for i in range(100):
         dog_breed = rc(popular_dog_breeds)
         sub_breeds = breed_sub_breeds.get(dog_breed, [])
         father_breed = dog_breed if not sub_breeds else rc(sub_breeds)
