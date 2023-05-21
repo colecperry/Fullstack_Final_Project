@@ -3,8 +3,7 @@ import { useRecoilValue } from "recoil";
 import { dogsState } from "../recoil/atoms";
 import { Dropdown } from "semantic-ui-react";
 
-function Filter() {
-    const [selectedBreed, setSelectedBreed] = useState("Choose Breed");
+function Filter({selectedBreed, setSelectedBreed}) {
     const dogs = useRecoilValue(dogsState);
 
     const renderFilter = dogs.map((dog) => (

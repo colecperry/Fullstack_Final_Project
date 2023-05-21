@@ -1,9 +1,11 @@
 import React from "react";
 import "../assets/App.css"
 import { useState, useEffect } from "react";
+import {Link, useNavigate} from "react-router-dom"
 
 function DogCard({ dog }) {
     const [image, setImage] = useState("")
+    const navigate = useNavigate();
 
     // useEffect(() => {
     //     fetch(`https://dog.ceo/api/breed/${dog.dog_breed}/images/random`)
@@ -11,8 +13,12 @@ function DogCard({ dog }) {
     //     .then((data) => setImage(data));
     // }, [dog.dog_breed]);
 
+    const handleCardClick = () => {
+        navigate(`/dog-page/${dog.id}`);
+    }
+
     return (
-        <div className="ui card custom-card">
+        <div className="ui card custom-card" onClick={handleCardClick}>
             <div className="image">
             <img
                 src={image}

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from"react"
 import '../assets/App.css';
 import LoginOrSignup from './LoginOrSignup';
 import Home from './Home';
+import DogPage from './DogPage';
 import NavBar from './NavBar';
 import { Route, Routes, Navigate} from "react-router-dom";
 import { useRecoilState } from 'recoil'
@@ -29,6 +30,7 @@ const [ user, setUser ] = useRecoilState(userState);
     <div className="App">
       <Routes>
         <Route path="/home" element={<> <NavBar/> <Home/> </>} />
+        <Route path="/dog-page/:id" element={<> <NavBar/> <DogPage/> </>} />
         {/* <Route path="/profile" element={<> <NavBar/> <Profile/> </>} />
         <Route path="/messages" element={<> <NavBar/> <Messages/> </>} />
         <Route path="/favorites" element={<> <NavBar/> <Favorites/> </>} />
