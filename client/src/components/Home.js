@@ -7,28 +7,38 @@ import { useRecoilState } from 'recoil'
 
 function Home(){
     const [ dogs, setDogs ] = useRecoilState(dogsState)
+    const [ filteredDogs, setFilteredDogs] = useState([])
     const [selectedBreed, setSelectedBreed] = useState("Choose Breed");
 
     useEffect(() => {
         fetch("/dogs")
         .then(resp => resp.json())
-        .then(data => setDogs(data))
+        .then(data => {
+            setDogs(data)})
     }, [])
+
+    useEffect(() => {
+        if (selectedBreed === "Choose Breed") {
+            setFilteredDogs([])
+        }
+        filterDogs()
+    }, [selectedBreed])
 
     const filterDogs = () => {
         if (selectedBreed === "Choose Breed") {
             return dogs
         } else {
-            return dogs.filter((dog) => {
+            const filterDogs = dogs.filter((dog) => {
                 return dog.dog_breed.toLowerCase().includes(selectedBreed.toLowerCase())
             })
+            setFilteredDogs(filterDogs)
         }
     }
 
     return(
         <div>
             <Filter selectedBreed={selectedBreed} setSelectedBreed={setSelectedBreed}/>
-            <DogCollection dogs={filterDogs()}/>
+            <DogCollection dogs={filteredDogs.length ? filteredDogs : dogs }/>
         </div>
     )
 }

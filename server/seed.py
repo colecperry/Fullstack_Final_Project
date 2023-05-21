@@ -94,7 +94,7 @@ breed_descriptions = {
 
 def seed_dogs():
     random_price = randint(20, 100) * 50
-    for i in range(1000):
+    for i in range(10):
         dog_breed = rc(popular_dog_breeds)
         sub_breeds = breed_sub_breeds.get(dog_breed, [])
         father_breed = dog_breed if not sub_breeds else rc(sub_breeds)
