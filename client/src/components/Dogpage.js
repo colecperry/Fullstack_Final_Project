@@ -8,7 +8,11 @@ import { useParams } from "react-router-dom";
 function DogPage() {
     const { id } = useParams();
     const dogs = useRecoilValue(dogsState);
-    const dog = dogs.find((dog) => dog.id === id);
+    console.log("ID:", id);
+    console.log("Dogs:", dogs);
+
+    const dog = dogs.find((dog) => dog.id == id);
+    console.log("Dog:", dog);
 
 
     return (

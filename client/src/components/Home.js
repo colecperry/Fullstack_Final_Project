@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil'
 function Home(){
     const [ dogs, setDogs ] = useRecoilState(dogsState)
     const [ filteredDogs, setFilteredDogs] = useState([])
-    const [selectedBreed, setSelectedBreed] = useState("Choose Breed");
+    const [ selectedBreed, setSelectedBreed ] = useState("Choose Breed");
 
     useEffect(() => {
         fetch("/dogs")

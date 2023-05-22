@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import {Link, useNavigate} from "react-router-dom"
 
 function DogCard({ dog }) {
-    console.log("dog", dog.dog_breed.split(" ").reverse())
     const [image, setImage] = useState("")
     const navigate = useNavigate();
 

@@ -36,7 +36,7 @@ dog_hair_colors = [
 ]
 
 popular_dog_breeds = [
-    "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman", "Husky", "Labradoodle", "Labrador", "Maltese", "Pitbull", "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
+    "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman", "Husky", "Labrador", "Maltese", "Pitbull", "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
 ]
 
 breed_sub_breeds = {
@@ -51,7 +51,6 @@ breed_sub_breeds = {
     "Dalmatian": [],
     "Doberman": [],
     "Husky": [],
-    "Labradoodle": ["Labrador", "Poodle"],
     "Labrador": [],
     "Maltese": [],
     "Pitbull": [],
@@ -75,7 +74,6 @@ breed_descriptions = {
     "Dalmatian": "The Dalmatian is a unique and eye-catching breed known for its distinctive coat pattern of spots. They have a medium-sized, muscular build and an energetic and outgoing personality. Dalmatians are active and require regular exercise, making them well-suited for active individuals or families.",
     "Doberman": "The Doberman is a sleek and powerful breed known for its loyalty and protective nature. With a well-muscled body and a confident stride, they make excellent guard dogs and family companions. Dobermans are intelligent and trainable, excelling in various activities such as obedience, agility, and even search and rescue.", 
     "Husky": "The Husky is a striking and energetic breed renowned for its endurance and beautiful coat. With a thick double coat, erect ears, and expressive eyes, they possess an alluring and captivating presence. Huskies are friendly and sociable, often forming strong bonds with their families while retaining a sense of independence.",
-    "Labradoodle": "The Labradoodle is a popular crossbreed between a Labrador Retriever and a Poodle. They combine the intelligence and trainability of the Poodle with the friendly and outgoing nature of the Labrador. Labradoodles are often low-shedding and make excellent companions for individuals with allergies or those seeking a family-friendly dog.", 
     "Labrador": "The Labrador Retriever is a friendly and versatile breed known for its gentle nature and intelligence. With a sturdy build and an expressive face, they are both athletic and lovable. Labradors are renowned for their loyalty and adaptability, excelling as guide dogs, search and rescue dogs, and family pets.",
     "Maltese": "The Maltese is a small and elegant breed known for its silky white coat and charming personality. With a compact size and round, dark eyes, they have an irresistible appeal. Maltese dogs are affectionate and thrive on companionship, making them ideal lap dogs and well-suited for apartment living.",
     "Pitbull": "The Pitbull is a strong and muscular breed that is often misunderstood. With a powerful physique and a determined expression, they are loyal and protective of their families. Properly socialized and trained, Pitbulls can be loving and gentle companions, showing great loyalty and affection.",
