@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil'
 
+
 export const userState = atom({
     key: 'userState',
     default: ""
@@ -12,5 +13,15 @@ export const loginNotSignupState = atom({
 
 export const dogsState = atom({
     key: 'dogsState',
-    default: []
+    default: selector( {
+        key: 'dogLoader',
+        get: async () => {
+                const response = await fetch("/dogs");
+                const data = await response.json()
+                console.log("data:", data)
+                return data
+            }
+        }
+
+    )
 })

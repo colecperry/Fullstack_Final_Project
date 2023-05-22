@@ -19,10 +19,10 @@ function NavBar () {
 
 
     return (
-        <Navbar bg="primary" variant="dark" expand="lg" sticky="top">
+        <Navbar bg="primary" variant="dark" expand="lg" sticky="top" style={{margin: "10px"}}>
         {/* <img src="https://i.postimg.cc/k5q6BfbH/4096325394.gif" alt="logo" style={{marginLeft: "20px", width:"30px", height:"30px"}}/> */}
     
-            <Navbar.Brand>
+            <Navbar.Brand style={{margin: "10px"}}>
                 Doggio
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

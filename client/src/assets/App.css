@@ -42,3 +42,9 @@
   border: 1px solid #ccc; /* Add desired border styles */
   margin: 10px;
 }
+
+.fullHeart,
+.emptyHeart {
+  font-size: inherit;
+  /* Add any other desired styles */
+}

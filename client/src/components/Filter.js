@@ -6,7 +6,7 @@ import { Dropdown } from "semantic-ui-react";
 function Filter({selectedBreed, setSelectedBreed}) {
     const dogs = useRecoilValue(dogsState);
 
-    const renderFilter = dogs.map((dog) => (
+    const renderFilter = dogs?.map((dog) => (
         <option key={dog.id} value={dog.dog_breed}>
         {dog.dog_breed}
         </option>

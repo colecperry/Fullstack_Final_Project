@@ -3,19 +3,19 @@ import DogCollection from "./DogCollection"
 import Filter from "./Filter"
 import { useState, useEffect } from "react";
 import { dogsState } from "../recoil/atoms";
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
 function Home(){
-    const [ dogs, setDogs ] = useRecoilState(dogsState)
+    const dogs = useRecoilValue(dogsState)
     const [ filteredDogs, setFilteredDogs] = useState([])
     const [ selectedBreed, setSelectedBreed ] = useState("Choose Breed");
-
-    useEffect(() => {
-        fetch("/dogs")
-        .then(resp => resp.json())
-        .then(data => {
-            setDogs(data)})
-    }, [])
+    console.log(dogs)
+    // useEffect(() => {
+    //     fetch("/dogs")
+    //     .then(resp => resp.json())
+    //     .then(data => {
+    //         setDogs(data)})
+    // }, [])
 
     useEffect(() => {
         if (selectedBreed === "Choose Breed") {

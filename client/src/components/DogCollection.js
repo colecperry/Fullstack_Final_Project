@@ -4,9 +4,10 @@ import { dogsState } from "../recoil/atoms";
 import { useRecoilValue } from "recoil";
 import { Card } from "semantic-ui-react";
 
-function DogCollection({dogs}) {
+function DogCollection() {
+    const dogs = useRecoilValue(dogsState)
 
-    const renderDogs = dogs.map((dog) => {
+    const renderDogs = dogs?.map((dog) => {
         return <DogCard dog={dog} key={dog.id} />;
     });
 

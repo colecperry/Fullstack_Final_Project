@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import {Link, Navigate} from "react-router-dom"
+import {Link, Navigate, useNavigate} from "react-router-dom"
 import { useSetRecoilState } from "recoil";
 import { loginNotSignupState, userState } from "../recoil/atoms";
 
@@ -11,6 +11,7 @@ function Login() {
     const [errors, setErrors] = useState([]);
     const setUser = useSetRecoilState(userState)
     const setLoginNotSignup = useSetRecoilState(loginNotSignupState)
+    const navigate = useNavigate()
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -22,8 +23,11 @@ function Login() {
             body: JSON.stringify({ user_email:email, password:password }),
         }).then((r) => {
             if (r.ok) {
-                r.json().then((user) => setUser(user))
-                // .then(<Navigate to="/home" />)
+                r.json().then((user) => {
+                setUser(user);
+                navigate("/home");
+                console.log(user)
+                });
             } else {
             r.json().then((err) => setErrors(err.errors))
             }

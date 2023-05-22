@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil"
 import { userState } from "../recoil/atoms"
 
@@ -15,6 +15,7 @@ function CreateAccount() {
     const [state, setState] = useState('')
     const [zipCode, setZipCode] = useState('')
     const setUser = useSetRecoilState(userState)
+    const navigate = useNavigate()
 
 
     const handleSubmit = async (event) => {
@@ -45,7 +46,7 @@ function CreateAccount() {
                 const user = await response.json();
                 setUser(user);
                 // Redirect to the desired location using the `Navigate` component
-                return <Navigate to="/" />;
+                navigate("/home");
             } else {
                 throw new Error('Failed to create user');
             }

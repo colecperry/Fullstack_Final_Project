@@ -16,7 +16,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
     <RecoilRoot>
+      <React.Suspense fallback={<div>loading...</div>}>
       <App />
+      </React.Suspense>
     </RecoilRoot>
   </Router>
 );
