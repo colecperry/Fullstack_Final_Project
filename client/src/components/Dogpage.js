@@ -19,27 +19,27 @@ function DogPage() {
     const dog = dogs?.find((dog) => dog.id == id);
     console.log("Dog:", dog);
 
-    useEffect(() => {
-        if (dog) {
-            const { dog_breed } = dog;
-            const breed = dog_breed.split(" ");
-            if (breed.length === 1) {
-                fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
-                .then((resp) => resp.json())
-                .then((data) => {
-                    setDogImage(data);
-                });
-            } else {
-                // format string
-                const reversedBreed = breed.reverse().join("/").toLowerCase();
-                fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
-                .then((resp) => resp.json())
-                .then((data) => {
-                    setDogImage(data);
-                });
-            }
-            }
-        }, []);
+    // useEffect(() => {
+    //     if (dog) {
+    //         const { dog_breed } = dog;
+    //         const breed = dog_breed.split(" ");
+    //         if (breed.length === 1) {
+    //             fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
+    //             .then((resp) => resp.json())
+    //             .then((data) => {
+    //                 setDogImage(data);
+    //             });
+    //         } else {
+    //             // format string
+    //             const reversedBreed = breed.reverse().join("/").toLowerCase();
+    //             fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
+    //             .then((resp) => resp.json())
+    //             .then((data) => {
+    //                 setDogImage(data);
+    //             });
+    //         }
+    //         }
+    //     }, []);
         
 
         const likedDog = {
