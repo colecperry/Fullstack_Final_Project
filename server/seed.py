@@ -1,8 +1,8 @@
 from random import randint, choice as rc
 from faker import Faker
 from app import app
+import requests
 from models import db, Dog, User, Message, Favorite
-from flask_login import current_user
 import ipdb;
 
 fake = Faker()
@@ -103,10 +103,24 @@ def seed_dogs():
 
         dog_description = breed_descriptions.get(dog_breed, "")
 
+        breed = dog_breed.split(" ")
+        print(breed)
+        if len(breed) == 1:
+            response = requests.get(f"https://dog.ceo/api/breed/{dog_breed.lower()}/images/random")
+        else: 
+            reversed_breed = breed.reverse()
+            print(reversed_breed)
+            join_breed = "/".join(breed)
+            response = requests.get(f"https://dog.ceo/api/breed/{join_breed}/images/random")
+        if response.status_code == 200:
+            data = response.json()
+            image_url = data['message']
+
+
         new_dog = Dog(
             breeder_id=randint(1, 100),
             dog_name=dog_name,
-            dog_image="",
+            dog_image=image_url,
             dog_breed=dog_breed,
             dog_age=str(randint(1, 15)) + ' weeks',
             dog_gender=dog_gender,  # Assign dog_gender
@@ -168,14 +182,14 @@ def seed_messages():
 #         db.session.add(new_message)
 #     db.session.commit()
 
-def seed_favorites():
-    for i in range(500):
-        new_favorite = Favorite(
-            user_id = randint(1,100),
-            dog_id = randint(1,1000)
-        )
-        db.session.add(new_favorite)
-    db.session.commit()
+# def seed_favorites():
+#     for i in range(500):
+#         new_favorite = Favorite(
+#             user_id = randint(1,100),
+#             dog_id = randint(1,100)
+#         )
+#         db.session.add(new_favorite)
+#     db.session.commit()
 
 
 if __name__ == '__main__':
@@ -194,8 +208,8 @@ if __name__ == '__main__':
         print('Seeded users')
         seed_messages()
         print('Seeded messages')
-        seed_favorites()
-        print('Seeded favorites')
+        # seed_favorites()
+        # print('Seeded favorites')
         print('Done!')
 
         ipdb.set_trace()

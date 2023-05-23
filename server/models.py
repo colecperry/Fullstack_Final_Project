@@ -52,7 +52,7 @@ class Dog(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     user = db.relationship('User', back_populates='dogs')
-    favorite = db.relationship('Favorite', back_populates='dog')
+    favorite = db.relationship('Favorite', back_populates='dog', uselist=False)
     messages = db.relationship('Message', back_populates='dog')
 
     @validates("dog_breed")
