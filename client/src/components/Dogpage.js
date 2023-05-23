@@ -1,23 +1,35 @@
 import React from "react";
 import "../assets/App.css"
-import { dogsState, userState } from "../recoil/atoms"
-import { useRecoilValue } from "recoil";
+import { allFavoritesState, dogsState, userState } from "../recoil/atoms"
+import { useRecoilValue, useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Image, Button } from "semantic-ui-react";
+import { Image, Button, Icon } from "semantic-ui-react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 function DogPage() {
     const { id } = useParams();
     const dogs = useRecoilValue(dogsState);
-    const user = useRecoilValue(userState)
+    const user = useRecoilValue(userState);
+    const [allFavorites, setAllFavorites] = useRecoilState(allFavoritesState)
     const [dogImage, setDogImage] = useState("")
     const [isLiked, setIsLiked] = useState(false);
-    console.log("ID:", id);
-    console.log("Dogs:", dogs);
+    // console.log("ID:", id);
+    // console.log("Dogs:", dogs);
 
     const dog = dogs?.find((dog) => dog.id == id);
-    console.log("Dog:", dog);
+    // console.log("Dog:", dog);
+
+    const favoritesArray = allFavorites.filter((favorite)=> {
+        if (favorite.user.id === user.id && favorite.dog.id === dog.id)
+            return favorite
+    })
+    // console.log("favorite", favoritesArray)
+
+    const specificLike = favoritesArray[0]
+
+    console.log("specific like", specificLike)
+        
 
     // useEffect(() => {
     //     if (dog) {
@@ -42,27 +54,46 @@ function DogPage() {
     //     }, []);
         
 
-        const likedDog = {
-            dog_id: parseInt(id),
-            user_id: user.id,
-        }
-        console.log("LikedDog:", likedDog)
+        // const likedDog = {
+        //     dog_id: parseInt(id),
+        //     user_id: user.id,
+        // }
+        // console.log("LikedDog:", likedDog)
 
-        const handleLikedDog = (likedDog) => {
-            fetch("/favorites", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(likedDog)
-            })
+        const handleLikeButton = () => {
+            //*DELETE EXISTING LIKE
+            if (specificLike) {
+                fetch(`/favorites/${specificLike.id}`, {
+                    method: "DELETE", 
+                })
+                .then(()=>{
+                    const updatedFavorites = allFavorites.filter((favorite)=>favorite.id !== specificLike.id)
+                    setAllFavorites(updatedFavorites)
+                })
+            }else{
+                //*ADD NEW LIKE
+                const new_favorite = {
+                    dog_id: parseInt(id),
+                    user_id: user.id,
+                }
+                fetch("/favorites", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":"application/json",
+                    },
+                    body: JSON.stringify(new_favorite) 
+                }).then(r=>r.json())
+                .then((new_favorite)=>{
+                    setAllFavorites((prevFavorites)=>[...prevFavorites,new_favorite])
+                }) 
+            } 
         }
 
 
-        const onLikeButtonClick = () => {
-            setIsLiked(!isLiked)
-            handleLikedDog(likedDog)
-        }
+        // const onLikeButtonClick = () => {
+        //     setIsLiked(!isLiked)
+        //     handleLikedDog(likedDog)
+        // }
 
 
         return (
@@ -74,9 +105,10 @@ function DogPage() {
                     <div className="dog-details" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <h1>{dog.dog_name}</h1>
-                        {isLiked ?
-                        <FaHeart classname="fullHeart" onClick={() => window.alert("You've already liked this post!")}/>
-                        : <FaRegHeart classname="emptyHeart" onClick={onLikeButtonClick} />}
+                        <Icon className='likeIcon' color={(specificLike) ? "green" : "grey"} name='heart' onClick={handleLikeButton} />
+                        {/* {isLiked ?
+                        // <FaHeart classname="fullHeart" onClick={() => window.alert("You've already liked this post!")}/>
+                        // : <FaRegHeart classname="emptyHeart" onClick={onLikeButtonClick} />} */}
                     </div>
                     <h2 style={{ marginLeft: "0" }}>About {dog.dog_name}</h2>
                     <p>

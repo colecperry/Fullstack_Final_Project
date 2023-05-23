@@ -35,8 +35,8 @@ function FavoritesCollection() {
             .then(favorites=>setDogFavorites(favorites))
         }, [])
 
-        console.log("user.id", user.id)
-        console.log("dogFavorites", dogFavorites)
+        // console.log("user.id", user.id)
+        // console.log("dogFavorites", dogFavorites)
 
         const favoriteCollection = dogFavorites.filter((favorite) => favorite.user.id == user.id)
 

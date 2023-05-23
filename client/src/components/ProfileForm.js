@@ -16,18 +16,29 @@ function ProfileForm() {
     const [state, setState] = useState('')
     const [zipCode, setZipCode] = useState('')
     console.log(user)
+    const user_id = user.id
+    const userData = { name, email, phoneNumber, address, city, state, zipCode}
 
-    // let patchedUser = {
-    //     name: user_name,
-    //     email: email,
-    //     : password,
-    //     region: region,
-    //     youtube: youtube,
-    //     instagram: instagram,
-    //     twitter: twitter
-    // }
+    fetch(`/users/${user_id}`, {
+        method: 'PATCH',
+        headers: {
+        'Content-Type': 'application/json',
+    },
+        body: JSON.stringify(userData),
+    })
+        .then((response) => {
+        if (response.ok) {
+            console.log('User updated successfully');
+            navigate(`/profile-page/${user.id}`);
+        } else {
+            console.log('Failed to update user');
+        }
+        })
+        .catch((error) => {
+        console.log('Error updating user:', error);
+        });
 
-    // finish patch request and navigate back to profile page
+
 
     return (
         <div className="container">

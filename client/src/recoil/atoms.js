@@ -39,3 +39,17 @@ export const allDogsState = atom({
 
     )
 })
+
+export const allFavoritesState = atom({
+    key: 'allFavoritesState',
+    default: selector( {
+        key: 'favoritesLoader',
+        get: async () => {
+                const response = await fetch("/favorites");
+                const data = await response.json()
+                return data
+            }
+        }
+
+    )
+})
