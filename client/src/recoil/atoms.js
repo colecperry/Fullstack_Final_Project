@@ -25,3 +25,18 @@ export const dogsState = atom({
 
     )
 })
+
+export const allDogsState = atom({
+    key: 'allDogsState',
+    default: selector( {
+        key: 'dogLoader',
+        get: async () => {
+                const response = await fetch("/dogs");
+                const data = await response.json()
+                console.log("data:", data)
+                return data
+            }
+        }
+
+    )
+})

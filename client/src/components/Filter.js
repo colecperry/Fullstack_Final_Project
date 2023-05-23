@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { dogsState } from "../recoil/atoms";
+import { allDogsState } from "../recoil/atoms";
 import { Dropdown } from "semantic-ui-react";
 
 function Filter({selectedBreed, setSelectedBreed}) {
-    const dogs = useRecoilValue(dogsState);
+    const allDogs = useRecoilValue(allDogsState);
 
-    const renderFilter = dogs?.map((dog) => (
+    const renderFilter = allDogs?.map((dog) => (
         <option key={dog.id} value={dog.dog_breed}>
         {dog.dog_breed}
         </option>
