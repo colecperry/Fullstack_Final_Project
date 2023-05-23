@@ -104,14 +104,15 @@ def seed_dogs():
         dog_description = breed_descriptions.get(dog_breed, "")
 
         breed = dog_breed.split(" ")
-        print(breed)
+        # print(breed)
         if len(breed) == 1:
             response = requests.get(f"https://dog.ceo/api/breed/{dog_breed.lower()}/images/random")
         else: 
             reversed_breed = breed.reverse()
-            print(reversed_breed)
+            # print(reversed_breed)
             join_breed = "/".join(breed)
-            response = requests.get(f"https://dog.ceo/api/breed/{join_breed}/images/random")
+            print(join_breed.lower())
+            response = requests.get(f"https://dog.ceo/api/breed/{join_breed.lower()}/images/random")
         if response.status_code == 200:
             data = response.json()
             image_url = data['message']
