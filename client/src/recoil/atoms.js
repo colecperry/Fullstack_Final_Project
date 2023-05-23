@@ -33,7 +33,6 @@ export const allDogsState = atom({
         get: async () => {
                 const response = await fetch("/dogs");
                 const data = await response.json()
-                console.log("data:", data)
                 return data
             }
         }

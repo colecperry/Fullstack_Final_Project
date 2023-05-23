@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import {Link, useNavigate} from "react-router-dom"
 import { Card } from "semantic-ui-react";
 
-function DogCard({ dog }) {
+function FavoritesCard({ dogFavorite }) {
     const [image, setImage] = useState("")
     const navigate = useNavigate();
+    const dog_id = dogFavorite.dog.id
+    // console.log("dog_id", dog_id)
 
     useEffect(() => {
-        const {dog_breed} = dog
+        const dog_breed = dogFavorite.dog.dog_breed
         const breed = dog_breed.split(" ")
         if (breed.length === 1) {
             fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
@@ -30,7 +32,7 @@ function DogCard({ dog }) {
     }, []);
 
     const handleCardClick = () => {
-        navigate(`/dog-page/${dog.id}`);
+        navigate(`/dog-page/${dog_id}`);
     }
 
     return (
@@ -44,16 +46,16 @@ function DogCard({ dog }) {
                 />
                 </div>
                 <div className="content">
-                <a className="dog name">{dog.dog_name}</a>
+                <a className="dog name">{dogFavorite.dog.dog_name}</a>
                 <div className="meta">
-                    <span className="breed">{dog.dog_breed}</span>
+                    <span className="breed">{dogFavorite.dog.dog_breed}</span>
                 </div>
-                <div className="age">{dog.dog_age}</div>
+                <div className="age">{dogFavorite.dog.dog_age}</div>
                 </div>
                 <div className="extra content">
                 <a>
                     <i className="user icon"></i>
-                    {dog.dog_gender}
+                    {dogFavorite.dog.dog_gender}
                 </a>
                 </div>
             </div>
@@ -61,10 +63,4 @@ function DogCard({ dog }) {
         );
     }
 
-export default DogCard; 
-
-
-
-
-
-
+export default FavoritesCard; 

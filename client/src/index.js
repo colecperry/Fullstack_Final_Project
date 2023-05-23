@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './assets/index.css';
 import App from './components/App';
+import 'semantic-ui-css/semantic.min.css';
 import reportWebVitals from './assets/reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {

@@ -12,8 +12,12 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4",
+    "ipdb": "^0.3.3",
+    "react-icons": "^4.8.0",
     "recoil": "^0.7.7",
-    "web-vitals": "^2.1.4"
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4"
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",

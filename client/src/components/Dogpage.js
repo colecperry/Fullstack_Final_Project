@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/App.css"
-import { dogsState } from "../recoil/atoms"
+import { dogsState, userState } from "../recoil/atoms"
 import { useRecoilValue } from "recoil";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 function DogPage() {
     const { id } = useParams();
     const dogs = useRecoilValue(dogsState);
+    const user = useRecoilValue(userState)
     const [dogImage, setDogImage] = useState("")
     const [isLiked, setIsLiked] = useState(false);
     console.log("ID:", id);
@@ -43,7 +44,7 @@ function DogPage() {
 
         const likedDog = {
             dog_id: parseInt(id),
-            user_id: dog?.user.id,
+            user_id: user.id,
         }
         console.log("LikedDog:", likedDog)
 

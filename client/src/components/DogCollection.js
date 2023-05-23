@@ -6,19 +6,21 @@ import { Card } from "semantic-ui-react";
 
 function DogCollection() {
     const dogs = useRecoilValue(dogsState)
-    console.log(dogs)
+    // console.log(dogs)
 
 
     const renderDogs = dogs?.map((dog) => {
         return <DogCard dog={dog} key={dog.id} />;
     });
-    console.log(renderDogs)
+    // console.log(renderDogs)
 
     return (
-        <Card.Group itemsPerRow={4}>
-        <h1>Hello From Dog Collection</h1>
-        {renderDogs}
-        </Card.Group>
+        <div>
+            <h1>Hello From Dog Collection</h1>
+            <Card.Group>
+                {renderDogs}
+            </Card.Group>
+        </div>
     );
 }
 
