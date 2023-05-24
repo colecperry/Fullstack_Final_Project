@@ -53,3 +53,17 @@ export const allFavoritesState = atom({
 
     )
 })
+
+export const allMessagesState= atom({
+    key: 'allMessagesState',
+    default: selector( {
+        key: 'messagesLoader',
+        get: async () => {
+                const response = await fetch("/messages");
+                const data = await response.json()
+                return data
+            }
+        }
+
+    )
+})

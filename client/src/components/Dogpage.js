@@ -5,6 +5,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Image, Button, Icon } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 function DogPage() {
@@ -14,6 +15,7 @@ function DogPage() {
     const [allFavorites, setAllFavorites] = useRecoilState(allFavoritesState)
     const [dogImage, setDogImage] = useState("")
     const [isLiked, setIsLiked] = useState(false);
+    const navigate = useNavigate()
     // console.log("ID:", id);
     // console.log("Dogs:", dogs);
 
@@ -94,7 +96,14 @@ function DogPage() {
         //     setIsLiked(!isLiked)
         //     handleLikedDog(likedDog)
         // }
+        console.log(dog)
 
+        // function extractFirstName(fullName) {
+        //     const regex = /^[^\s]+/;
+        //     const match = fullName.match(regex);
+        //     return match ? match[0] : '';
+        // }
+        const firstName = dog.user.user_name.split(' ')[0]
 
         return (
             <div className="dog-page-container">
@@ -110,6 +119,9 @@ function DogPage() {
                         // <FaHeart classname="fullHeart" onClick={() => window.alert("You've already liked this post!")}/>
                         // : <FaRegHeart classname="emptyHeart" onClick={onLikeButtonClick} />} */}
                     </div>
+                    <Button onClick={() => navigate("/messages")}>
+                        Contact {firstName}
+                    </Button>
                     <h2 style={{ marginLeft: "0" }}>About {dog.dog_name}</h2>
                     <p>
                         <strong>Breed:</strong> {dog.dog_breed}

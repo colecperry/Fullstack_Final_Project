@@ -22,13 +22,13 @@ function Profile() {
 
     const handleSubmit = () => {
         const userData = {
-        name: name,
-        email: email,
-        phoneNumber: phoneNumber,
-        address: address,
-        city: city,
-        state: state,
-        zipCode: zipCode
+        user_name: name,
+        user_email: email,
+        user_phone_number: phoneNumber,
+        user_address: address,
+        user_city: city,
+        user_state: state,
+        user_zip_code: zipCode
         };
 
         fetch(`/users/${user.id}`, {
