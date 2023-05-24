@@ -13,13 +13,25 @@ function Messages() {
     const allMessages = useRecoilValue(allMessagesState)
     const user = useRecoilValue(userState)
     const user_id = user.id
-    console.log(allMessages)
+    // console.log(allMessages)
 
-    function renderMessageBox (breeder, messageBody) {
+    const messageComponents = allMessages.map((message) => {
+        const messageBody = message.message_body
+        const messageReceiver = message.receiving_user?.user_name
+        // console.log(messageReceiver)
+
+        if (user_id === message?.sending_user?.id && messageReceiver) {
+            // console.log(messageReceiver)
+            return renderMessageBox(messageReceiver, messageBody)
+        }
+        return null;
+    })
+
+    function renderMessageBox (messageReceiver, messageBody) {
         return (
             <Container fluid="lg" className="messages" onClick={() => navigate("/chats")}>
                 <Row>
-                    <Col><b>{breeder}</b></Col>
+                    <Col><b>{messageReceiver}</b></Col>
                 </Row>
                 <Row>
                     <Col>{messageBody}</Col>
@@ -27,15 +39,6 @@ function Messages() {
             </Container>
     )}
 
-    const messageComponents = allMessages.map((message) => {
-        const messageBody = message.message_body
-        const messageReceiver = message.dog.user.user_name
-
-        if (user_id === message.user.id) {
-        return renderMessageBox(messageReceiver, messageBody)}
-        
-
-    })
 
     return (
         <div>
