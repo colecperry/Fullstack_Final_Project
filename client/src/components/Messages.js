@@ -22,14 +22,14 @@ function Messages() {
 
         if (user_id === message?.sending_user?.id && messageReceiver) {
             // console.log(messageReceiver)
-            return renderMessageBox(messageReceiver, messageBody)
+            return renderMessageBox(messageReceiver, messageBody, message.id)
         }
         return null;
     })
 
-    function renderMessageBox (messageReceiver, messageBody) {
+    function renderMessageBox (messageReceiver, messageBody, messageId) {
         return (
-            <Container fluid="lg" className="messages" onClick={() => navigate("/chats")}>
+            <Container fluid="lg" className="messages" key={messageId} onClick={() => navigate("/chats")}>
                 <Row>
                     <Col><b>{messageReceiver}</b></Col>
                 </Row>

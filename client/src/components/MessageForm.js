@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { allMessagesState, userState } from "../recoil/atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 
-function MessageForm({ message }) {
+function MessageForm({ messageReceiverId }) {
     const [messageBody, setMessageBody] = useState("");
     const user = useRecoilValue(userState);
     const [messages, setMessages] = useRecoilState(allMessagesState);
+    console.log(messageReceiverId)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,7 +14,7 @@ function MessageForm({ message }) {
         // Create a message object
         const messageData = {
         message_sender_id: user.id,
-        message_receiver_id: message.receiving_user.id,
+        message_receiver_id: messageReceiverId,
         message_body: messageBody,
         dog_id: Math.floor(Math.random() * 100) + 1
         };
@@ -38,15 +39,17 @@ function MessageForm({ message }) {
             }
         })
         .then((data) => {
+            console.log(data)
             // Assign the newly created message's ID to newMessage
-            const newMessage = {
-            id: data.id, // assuming the ID property exists in the response data
-            message_sender_id: messageData.message_sender_id,
-            message_body: messageData.message_body,
-            // dog_id:
-            };
+            // const newMessage = {
+            // id: data.id, // assuming the ID property exists in the response data
+            // message_sender_id: data.sending_user.id,
+            // message_receiver_id: data.receiving_user.id,
+            // message_body: data.message_body,
+            // dog_id: data.dog.dog_id
+            // };
 
-            setMessages([...messages, newMessage]);
+            setMessages(messages => [...messages, data]);
 
             // Reset the form
             setMessageBody("");

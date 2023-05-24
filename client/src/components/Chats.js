@@ -13,15 +13,18 @@ function Chats() {
     const allMessages = useRecoilValue(allMessagesState);
     const user = useRecoilValue(userState);
     let messageReceiver = null; // Declare messageReceiver variable
+    let messageReceiverId = null;
 
     const singleMessage = allMessages.map((message) => {
         const messageBody = message.message_body;
         const messageSender = message.sending_user.user_name;
         const currentMessageReceiver = message.receiving_user?.user_name;
+        const currentMessageReceiverId = message.receiving_user?.id
 
         if (user.id === message?.sending_user?.id && currentMessageReceiver) {
             messageReceiver = currentMessageReceiver; // Assign currentMessageReceiver to messageReceiver variable
-            console.log(messageReceiver);
+            messageReceiverId = currentMessageReceiverId
+            // console.log(messageReceiver);
             return renderSingleMessage(messageReceiver, messageSender, messageBody);
         }
 
@@ -42,7 +45,7 @@ function Chats() {
         <div>
             <h1>{messageReceiver}</h1>
             <div>{singleMessage}</div>
-            <MessageForm />
+            <MessageForm messageReceiverId={messageReceiverId}/>
         </div>
     );
 }
