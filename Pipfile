@@ -11,6 +11,9 @@ faker = "*"
 flask-migrate = "*"
 flask-restful = "*"
 flask-bcrypt = "*"
+requests = "*"
+urllib3 = "*"
+ipdb = "*"
 
 [dev-packages]
 

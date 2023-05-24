@@ -28,7 +28,7 @@ function DogPage() {
 
     const specificLike = favoritesArray[0]
 
-    console.log("specific like", specificLike)
+    // console.log("specific like", specificLike)
         
 
     // useEffect(() => {
@@ -99,7 +99,7 @@ function DogPage() {
         return (
             <div className="dog-page-container">
                 <div className="dog-image">
-                    <Image src={dogImage.message} alt="dog" size="medium" rounded centered />
+                    <Image src={dog.dog_image} alt="dog" size="medium" rounded centered />
                 </div>
                 {dog && (
                     <div className="dog-details" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>

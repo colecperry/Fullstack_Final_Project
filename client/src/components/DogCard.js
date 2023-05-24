@@ -8,26 +8,26 @@ function DogCard({ dog }) {
     const [image, setImage] = useState("")
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const {dog_breed} = dog
-        const breed = dog_breed.split(" ")
-        if (breed.length === 1) {
-            fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
-            .then((resp) => resp.json())
-            .then((data) => {
-                setImage(data)
-            });
-        } else {
-            // format string
-            const reversedBreed = breed.reverse().join("/").toLowerCase()
-            fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
-            .then((resp) => resp.json())
-            .then((data) => {
-                setImage(data)
-            });
-        }
+    // useEffect(() => {
+    //     const {dog_breed} = dog
+    //     const breed = dog_breed.split(" ")
+    //     if (breed.length === 1) {
+    //         fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
+    //         .then((resp) => resp.json())
+    //         .then((data) => {
+    //             setImage(data)
+    //         });
+    //     } else {
+    //         // format string
+    //         const reversedBreed = breed.reverse().join("/").toLowerCase()
+    //         fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
+    //         .then((resp) => resp.json())
+    //         .then((data) => {
+    //             setImage(data)
+    //         });
+    //     }
 
-    }, []);
+    // }, []);
 
     console.log(image)
 
@@ -40,7 +40,7 @@ function DogCard({ dog }) {
             <div onClick={handleCardClick}>
                 <div className="image">
                 <img
-                    src={image.message}
+                    src={dog.dog_image}
                     alt="dog"
                     style={{ width: "100px", height: "100px" }}
                 />

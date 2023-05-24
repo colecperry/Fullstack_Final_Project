@@ -1,17 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { Card, Container, ListGroup, Button } from "react-bootstrap";
+import { Card, Container, ListGroup, Button, Form } from "react-bootstrap";
 import { userState } from "../recoil/atoms";
-import { useRecoilValue } from "recoil"
-import {Link, useNavigate} from "react-router-dom"
+import { useRecoilValue } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
-    const user = useRecoilValue(userState)
+    const user = useRecoilValue(userState);
     const navigate = useNavigate();
-    console.log(user)
+    const [isEditingProfile, setIsEditingProfile] = useState(false);
+    const [name, setName] = useState(user.user_name);
+    const [email, setEmail] = useState(user.user_email);
+    const [phoneNumber, setPhoneNumber] = useState(user.phone_number);
+    const [address, setAddress] = useState(user.user_address);
+    const [city, setCity] = useState(user.user_city);
+    const [state, setState] = useState(user.user_state);
+    const [zipCode, setZipCode] = useState(user.user_zip_code);
 
-    const handleProfileClick = () => {
-        navigate(`/profile-page/${user.id}`);
-    }
+    const handleEditProfile = () => {
+        setIsEditingProfile(!isEditingProfile);
+    };
+
+    const handleSubmit = () => {
+        const userData = {
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        city: city,
+        state: state,
+        zipCode: zipCode
+        };
+
+        fetch(`/users/${user.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+        })
+        .then((response) => {
+            if (response.ok) {
+            console.log('User updated successfully');
+            navigate("/profile");
+            } else {
+            console.log('Failed to update user');
+            }
+        })
+        .catch((error) => {
+            console.log('Error updating user:', error);
+        });
+    };
 
     return (
         <div>
@@ -23,8 +61,11 @@ function Profile() {
             style={{ width: "40rem", height: "800px" }}
             className="mx-auto position-relative"
             >
-            <Button className="position-absolute top-0 end-0 m-3" onClick={handleProfileClick}>
-                Edit Profile
+            <Button
+                className="position-absolute top-0 end-0 m-3"
+                onClick={handleEditProfile}
+            >
+                {isEditingProfile ? "Cancel" : "Edit Profile"}
             </Button>
             <Card.Img
                 variant="top"
@@ -34,38 +75,106 @@ function Profile() {
             />
             <Card.Body>
                 <Card.Title>
-                <h1 style={{ marginBottom: 0 }}>{user.user_name}</h1>
+                {isEditingProfile ? (
+                    <>
+                    <label htmlFor="name"><b>Name:</b></label>
+                    <Form.Control
+                        id="name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    </>
+                ) : (
+                    <h1 style={{ marginBottom: 0 }}>{user.user_name}</h1>
+                )}
                 </Card.Title>
             </Card.Body>
             <ListGroup className="list-group-flush">
                 <ListGroup.Item>
-                <b>Email:</b> {user.user_email}
+                <b>Email:</b>{" "}
+                {isEditingProfile ? (
+                    <Form.Control
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    />
+                ) : (
+                    user.user_email
+                )}
                 </ListGroup.Item>
                 <ListGroup.Item>
                 <b>Phone Number: </b>
-                <Card.Link href="#">{user.phone_number}</Card.Link>
+                {isEditingProfile ? (
+                    <Form.Control
+                    type="text"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                ) : (
+                    <Card.Link href="#">{user.phone_number}</Card.Link>
+                )}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                <b>Address:</b> {user.user_address}
+                <b>Address:</b>{" "}
+                {isEditingProfile ? (
+                    <Form.Control
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    />
+                ) : (
+                    user.user_address
+                )}
                 </ListGroup.Item>
                 <ListGroup.Item>
                 <b>City: </b>
-                {user.user_city}
+                {isEditingProfile ? (
+                    <Form.Control
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    />
+                ) : (
+                    user.user_city
+                )}
                 </ListGroup.Item>
                 <ListGroup.Item>
                 <b>State: </b>
-                {user.user_state}
+                {isEditingProfile ? (
+                    <Form.Control
+                    type="text"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    />
+                ) : (
+                    user.user_state
+                )}
                 </ListGroup.Item>
                 <ListGroup.Item>
                 <b>Zip Code: </b>
-                {user.user_zip_code}
+                {isEditingProfile ? (
+                    <Form.Control
+                    type="text"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                    />
+                ) : (
+                    user.user_zip_code
+                )}
                 </ListGroup.Item>
             </ListGroup>
-            <Card.Body></Card.Body>
+            <Card.Body>
+                {isEditingProfile && (
+                <Button variant="primary" onClick={handleSubmit}>
+                    Submit
+                </Button>
+                )}
+            </Card.Body>
             </Card>
         </Container>
         </div>
-    )
-}
+    );
+    }
 
 export default Profile;

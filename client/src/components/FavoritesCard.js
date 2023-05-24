@@ -10,26 +10,28 @@ function FavoritesCard({ dogFavorite }) {
     const dog_id = dogFavorite.dog.id
     // console.log("dog_id", dog_id)
 
-    useEffect(() => {
-        const dog_breed = dogFavorite.dog.dog_breed
-        const breed = dog_breed.split(" ")
-        if (breed.length === 1) {
-            fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
-            .then((resp) => resp.json())
-            .then((data) => {
-                setImage(data)
-            });
-        } else {
-            // format string
-            const reversedBreed = breed.reverse().join("/").toLowerCase()
-            fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
-            .then((resp) => resp.json())
-            .then((data) => {
-                setImage(data)
-            });
-        }
+    // useEffect(() => {
+    //     const dog_breed = dogFavorite.dog.dog_breed
+    //     const breed = dog_breed.split(" ")
+    //     if (breed.length === 1) {
+    //         fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
+    //         .then((resp) => resp.json())
+    //         .then((data) => {
+    //             setImage(data)
+    //         });
+    //     } else {
+    //         // format string
+    //         const reversedBreed = breed.reverse().join("/").toLowerCase()
+    //         fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
+    //         .then((resp) => resp.json())
+    //         .then((data) => {
+    //             setImage(data)
+    //         });
+    //     }
 
-    }, []);
+    // }, []);
+
+    console.log(dogFavorite)
 
     const handleCardClick = () => {
         navigate(`/dog-page/${dog_id}`);
@@ -40,7 +42,7 @@ function FavoritesCard({ dogFavorite }) {
             <div onClick={handleCardClick}>
                 <div className="image">
                 <img
-                    src={image.message}
+                    src={dogFavorite.dog.dog_image}
                     alt="dog"
                     style={{ width: "100px", height: "100px" }}
                 />
