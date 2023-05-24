@@ -164,10 +164,12 @@ def seed_messages():
     users = User.query.all()
 
     for user in users:
+        dog_id = randint(1,100),
         new_message1 = Message(
             message_sender_id = user.id,
-            message_body = "Hey, I'm interested in your dog! ",
-            dog_id = randint(1,1000)
+            dog_id = dog_id[0],
+            message_body = f"Hey, I am {user.id} interested in your dog with the id of {dog_id}! "
+            
         )
         db.session.add(new_message1)
     db.session.commit()
