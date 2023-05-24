@@ -148,7 +148,10 @@ class Message(db.Model, SerializerMixin):
                     '-user.messages',
                     '-user.dogs',
                     '-user.favorites',
-                    '-dog.user',
+                    # '-dog.user',
+                    '-dog.user.dogs',
+                    '-dog.user.messages',
+                    '-dog.user.favorites',
                     '-dog.favorite',
                     '-dog.messages')
 
