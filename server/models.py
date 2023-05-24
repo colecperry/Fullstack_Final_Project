@@ -75,8 +75,14 @@ class User(db.Model, SerializerMixin):
                     '-dogs.user', 
                     '-dogs.messages', 
                     '-dogs.favorite', 
-                    '-messages.user', 
-                    '-messages.dog', 
+                    # '-messages.user', 
+                    # '-messages.dog', 
+                    '-message_sender.sending_user',
+                    '-message_sender.receiving_user',
+                    '-message_sender.dog',
+                    '-message_receiver.sending_user',
+                    '-message_receiver.receiving_user',
+                    '-message_receiver.dog',
                     '-favorites.user',
                     '-favorites.dog')
 
@@ -95,7 +101,9 @@ class User(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     dogs = db.relationship('Dog', back_populates='user')
-    messages = db.relationship('Message', back_populates='user')
+    # messages = db.relationship('Message', back_populates='user')
+    message_sender = db.relationship("Message", foreign_keys="Message.message_sender_id", back_populates='sending_user')
+    message_receiver = db.relationship("Message", foreign_keys="Message.message_receiver_id", back_populates='receiving_user')
     favorites = db.relationship('Favorite', back_populates='user')
 
     @validates("user_name")
@@ -145,25 +153,37 @@ class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
     serialize_rules = ('-created_at',
                     '-updated_at',
-                    '-user.messages',
-                    '-user.dogs',
-                    '-user.favorites',
-                    # '-dog.user',
-                    '-dog.user.dogs',
-                    '-dog.user.messages',
-                    '-dog.user.favorites',
+                    # '-user.messages',
+                    # '-user.dogs',
+                    # '-user.favorites',
+                    '-sending_user.dogs',
+                    '-sending_user.message_sender',
+                    '-sending_user.message_receiver',
+                    '-sending_user.favorites',
+                    '-receiving_user.dogs',
+                    '-receiving_user.message_sender',
+                    '-receiving_user.message_receiver',
+                    '-receiving_user.favorites',
+                    '-dog.user',
+                    # '-dog.user.dogs',
+                    # '-dog.user.messages',
+                    # '-dog.user.favorites',
                     '-dog.favorite',
                     '-dog.messages')
 
     id = db.Column(db.Integer, primary_key=True)
     message_sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    message_receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     message_body = db.Column(db.String)
     dog_id = db.Column(db.Integer, db.ForeignKey('dogs.id'))
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    user = db.relationship('User', back_populates='messages')
+
+    # user = db.relationship('User', back_populates='messages')
+    sending_user = db.relationship("User", foreign_keys=[message_sender_id], back_populates='message_sender')
+    receiving_user = db.relationship("User", foreign_keys=[message_receiver_id], back_populates='message_receiver')
     dog = db.relationship('Dog', back_populates='messages')
 
     @validates("message_body")

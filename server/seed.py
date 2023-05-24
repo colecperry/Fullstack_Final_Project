@@ -119,7 +119,7 @@ def seed_dogs():
 
 
         new_dog = Dog(
-            breeder_id=randint(1, 100),
+            breeder_id=randint(1, 10),
             dog_name=dog_name,
             dog_image=image_url,
             dog_breed=dog_breed,
@@ -145,7 +145,7 @@ def seed_dogs():
 
 
 def seed_users():
-    for i in range(100):
+    for i in range(10):
         new_user = User(
             user_name=fake.name(),
             user_image='https://cdn-icons-png.flaticon.com/512/1946/1946429.png',
@@ -167,6 +167,7 @@ def seed_messages():
         dog_id = randint(1,100),
         new_message1 = Message(
             message_sender_id = user.id,
+            message_receiver_id = randint(1,10),
             dog_id = dog_id[0],
             message_body = f"Hey, I am {user.id} interested in your dog with the id of {dog_id}! "
             

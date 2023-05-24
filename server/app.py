@@ -247,6 +247,7 @@ def messages():
         try:
             message = Message(
                 message_sender_id = form_data.get('message_sender_id'),
+                message_receiver_id = form_data.get('message_receiver_id'),
                 message_body = form_data.get('message_body'),
                 dog_id = form_data.get('dog_id')
                 )
