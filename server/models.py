@@ -77,12 +77,12 @@ class User(db.Model, SerializerMixin):
                     '-dogs.favorite', 
                     # '-messages.user', 
                     # '-messages.dog', 
-                    '-message_sender.sending_user',
-                    '-message_sender.receiving_user',
-                    '-message_sender.dog',
-                    '-message_receiver.sending_user',
-                    '-message_receiver.receiving_user',
-                    '-message_receiver.dog',
+                    '-sent_message.sending_user',
+                    '-sent_message.receiving_user',
+                    '-sent_message.dog',
+                    '-received_message.sending_user',
+                    '-received_message.receiving_user',
+                    '-received_message.dog',
                     '-favorites.user',
                     '-favorites.dog')
 
@@ -102,8 +102,8 @@ class User(db.Model, SerializerMixin):
 
     dogs = db.relationship('Dog', back_populates='user')
     # messages = db.relationship('Message', back_populates='user')
-    message_sender = db.relationship("Message", foreign_keys="Message.message_sender_id", back_populates='sending_user')
-    message_receiver = db.relationship("Message", foreign_keys="Message.message_receiver_id", back_populates='receiving_user')
+    sent_message = db.relationship("Message", foreign_keys="Message.message_sender_id", back_populates='sending_user')
+    received_message = db.relationship("Message", foreign_keys="Message.message_receiver_id", back_populates='receiving_user')
     favorites = db.relationship('Favorite', back_populates='user')
 
     @validates("user_name")
@@ -157,12 +157,12 @@ class Message(db.Model, SerializerMixin):
                     # '-user.dogs',
                     # '-user.favorites',
                     '-sending_user.dogs',
-                    '-sending_user.message_sender',
-                    '-sending_user.message_receiver',
+                    '-sending_user.sent_message',
+                    '-sending_user.received_message',
                     '-sending_user.favorites',
                     '-receiving_user.dogs',
-                    '-receiving_user.message_sender',
-                    '-receiving_user.message_receiver',
+                    '-receiving_user.sent_message',
+                    '-receiving_user.received_message',
                     '-receiving_user.favorites',
                     '-dog.user',
                     # '-dog.user.dogs',
@@ -182,8 +182,8 @@ class Message(db.Model, SerializerMixin):
 
 
     # user = db.relationship('User', back_populates='messages')
-    sending_user = db.relationship("User", foreign_keys=[message_sender_id], back_populates='message_sender')
-    receiving_user = db.relationship("User", foreign_keys=[message_receiver_id], back_populates='message_receiver')
+    sending_user = db.relationship("User", foreign_keys=[message_sender_id], back_populates='sent_message')
+    receiving_user = db.relationship("User", foreign_keys=[message_receiver_id], back_populates='received_message')
     dog = db.relationship('Dog', back_populates='messages')
 
     @validates("message_body")
