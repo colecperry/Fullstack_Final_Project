@@ -1,20 +1,24 @@
 import React, {useState, useEffect} from "react"
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+// import Button from 'react-bootstrap/Button'
+// import Form from 'react-bootstrap/Form'
+import { Button, Form } from 'semantic-ui-react'
+import '../assets/App.css';
 import {Link, Navigate, useNavigate} from "react-router-dom"
 import { useSetRecoilState } from "recoil";
 import { loginNotSignupState, userState } from "../recoil/atoms";
+import { FaDog } from 'react-icons/fa';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState(null);
     const setUser = useSetRecoilState(userState)
     const setLoginNotSignup = useSetRecoilState(loginNotSignupState)
     const navigate = useNavigate()
 
-    function handleSubmit(e) {
-        e.preventDefault()
+    function handleSubmit() {
+        // e.preventDefault()
+        setErrors(null)
         fetch("/login", {
             method: "POST",
             headers: {
@@ -29,32 +33,46 @@ function Login() {
                 console.log(user)
                 });
             } else {
-            r.json().then((err) => setErrors(err.errors))
+            r.json().then((err) => setErrors(err.error))
             }
         })
         }
+        // console.log(errors)
 
-return(
+return( 
     <div>
-    <h1 style={{paddingTop:"50px", paddingBottom:"50px", fontSize:"3.5rem"}}>Doggio</h1>
-    <Form onSubmit={(e) => handleSubmit(e)}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="text" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-            Login
-        </Button>
-            &nbsp;
-            <Button onClick={() => setLoginNotSignup(prev => !prev)} variant="secondary" type="button">
-                Create Account
-            </Button>
-    </Form>
-</div>
+            {errors && <h2>{errors}</h2>}
+        <h1 style={{
+            paddingTop:"50px",
+            paddingBottom:"50px",
+            fontSize:"3.5rem",
+            textAlign: "center",
+            fontFamily: 'Verdana, sans-serif'
+            }}>Doggio
+            <FaDog/>
+            </h1> 
+        <div className='loginContainer'>
+            <Form>
+                <Form.Field className="mb-3" controlid="formBasicEmail">
+                    <label>Email address</label>
+                    <input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
+                </Form.Field>
+                <Form.Field className="mb-3" controlid="formBasicPassword">
+                    <label>Password</label>
+                    <input type="text" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+                </Form.Field>
+                <div className='Login_btn_container'>
+                    <Button variant="primary" type="submit" onClick={handleSubmit}>
+                        Login
+                    </Button>
+                        &nbsp;
+                    <Button onClick={() => setLoginNotSignup(prev => !prev)} variant="secondary" type="button">
+                        Create Account
+                    </Button>
+                </div>
+            </Form>
+        </div>
+    </div>
 )
 }
 

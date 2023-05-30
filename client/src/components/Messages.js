@@ -1,4 +1,5 @@
 import React from 'react'
+import MessageForm from './MessageForm';
 import Chats from "./Chats"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,30 +7,84 @@ import Col from 'react-bootstrap/Col';
 import "../assets/App.css"
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { allMessagesState, userState } from '../recoil/atoms';
+import { allMessagesState, breederState, userState } from '../recoil/atoms';
 
 function Messages() {
-    const navigate = useNavigate()
-    const allMessages = useRecoilValue(allMessagesState)
-    const user = useRecoilValue(userState)
-    const user_id = user.id
-    // console.log(allMessages)
+    const navigate = useNavigate();
+    const allMessages = useRecoilValue(allMessagesState);
+    const user = useRecoilValue(userState);
+    const breeder = useRecoilValue(breederState)
+    const user_id = user.id;
 
-    const messageComponents = allMessages.map((message) => {
-        const messageBody = message.message_body
-        const messageReceiver = message.receiving_user?.user_name
-        // console.log(messageReceiver)
+    const breeder_name = breeder?.user_name
+    const breeder_id = breeder.id
 
-        if (user_id === message?.sending_user?.id && messageReceiver) {
-            // console.log(messageReceiver)
-            return renderMessageBox(messageReceiver, messageBody, message.id)
+    const messages_for_curr_user = 
+        allMessages.filter(
+            (message) => (user_id === message.sending_user?.id)
+        )
+
+    console.log(messages_for_curr_user)
+    
+
+    let message_dict = {}
+    let id_to_name = {}
+
+    for (let i = 0; i < messages_for_curr_user.length; i++) {
+        const message = messages_for_curr_user[i]
+        const receiver_name = message.receiving_user?.user_name
+        const receiverId = message.message_receiver_id
+
+        if (receiverId in id_to_name) {
+            delete id_to_name[receiverId];
         }
-        return null;
-    })
+        id_to_name[receiverId] = receiver_name
+        
+        if (receiverId in message_dict) {
+            delete message_dict[receiverId];
+        }
+        message_dict[receiverId] = message.message_body
+    }
+    console.log(message_dict)
+    const message_dict_entries = Object.entries(message_dict)
+    const message_box_components = message_dict_entries.map(
+        ([key, value]) => {
+            return renderMessageBox(id_to_name[key], value)
+        }
+    )
 
-    function renderMessageBox (messageReceiver, messageBody, messageId) {
+    // for (let i = allMessages.length - 1; i >= 0; i--) {
+    //     const message = allMessages[i];
+    //     const messageReceiver = message.receiving_user?.user_name;
+    //     const messageBody = message.message_body;
+
+    //     if (user_id === message?.sending_user?.id && messageReceiver) {
+    //         mostRecentMessage = {
+    //             receiver: messageReceiver,
+    //             body: messageBody
+    //         };
+    //         break;
+    //     }
+    // }
+
+    // if (!mostRecentMessage) {
+    //     return null; // Return null if no recent message is found
+    // }
+
+    const display_message_form = breeder.id !== 0
+
+    return (
+        <div>
+            <h1>Hello from Messages</h1>
+            {display_message_form ? <MessageForm messageReceiverId={breeder_id}/> : <div></div>}
+            {/* {renderMessageBox(mostRecentMessage.receiver, mostRecentMessage.body)} */}
+            {message_box_components}
+        </div>
+    );
+
+    function renderMessageBox(messageReceiver, messageBody) {
         return (
-            <Container fluid="lg" className="messages" key={messageId} onClick={() => navigate("/chats")}>
+            <Container fluid="lg" className="messages" onClick={() => navigate("/chats")}>
                 <Row>
                     <Col><b>{messageReceiver}</b></Col>
                 </Row>
@@ -37,16 +92,8 @@ function Messages() {
                     <Col>{messageBody}</Col>
                 </Row>
             </Container>
-    )}
-
-
-    return (
-        <div>
-            <h1>
-            Hello from Messages
-            </h1>
-            {messageComponents}
-        </div>
-    )
+        );
+    }
 }
+
 export default Messages;

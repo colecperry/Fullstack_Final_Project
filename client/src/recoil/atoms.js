@@ -6,6 +6,24 @@ export const userState = atom({
     default: ""
 })
 
+export const breederState = atom({
+    key: 'breederState',
+    default: {
+        id: 0,
+        message_receiver: null,
+        message_sender: null, 
+        user_address: "",
+        user_city: "",
+        user_email: "",
+        user_image: "",
+        user_name: "",
+        user_phone_number: "",
+        user_state: "",
+        user_zip_code: 0,
+        _password_hash: ""
+    }
+})
+
 export const loginNotSignupState = atom({
     key: 'loginNotSignupState',
     default: true

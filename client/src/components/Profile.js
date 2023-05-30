@@ -31,6 +31,23 @@ function Profile() {
         user_zip_code: zipCode
         };
 
+        // setName(name)
+        // setEmail(email)
+        // setPhoneNumber(phoneNumber)
+        // setAddress(address)
+        // setCity(city)
+        // setState(state)
+        // setZipCode(zipCode)
+
+        console.log(name)
+        console.log(email)
+        console.log(phoneNumber)
+        console.log(address)
+        console.log(city)
+        console.log(state)
+        console.log(zipCode)
+
+
         fetch(`/users/${user.id}`, {
         method: 'PATCH',
         headers: {
@@ -41,10 +58,11 @@ function Profile() {
         .then((response) => {
             if (response.ok) {
             console.log('User updated successfully');
-            navigate("/profile");
+            // navigate("/profile");
             } else {
             console.log('Failed to update user');
             }
+            setIsEditingProfile(!isEditingProfile)
         })
         .catch((error) => {
             console.log('Error updating user:', error);
@@ -86,7 +104,8 @@ function Profile() {
                     />
                     </>
                 ) : (
-                    <h1 style={{ marginBottom: 0 }}>{user.user_name}</h1>
+                    // <h1 style={{ marginBottom: 0 }}>{user.user_name}</h1>
+                    <h1 style={{ marginBottom: 0 }}>{name}</h1>
                 )}
                 </Card.Title>
             </Card.Body>
@@ -100,7 +119,7 @@ function Profile() {
                     onChange={(e) => setEmail(e.target.value)}
                     />
                 ) : (
-                    user.user_email
+                    <div>{email}</div>
                 )}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -112,7 +131,7 @@ function Profile() {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                 ) : (
-                    <Card.Link href="#">{user.phone_number}</Card.Link>
+                    <Card.Link href="#">{phoneNumber}</Card.Link>
                 )}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -124,7 +143,7 @@ function Profile() {
                     onChange={(e) => setAddress(e.target.value)}
                     />
                 ) : (
-                    user.user_address
+                    <div>{address}</div>
                 )}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -136,7 +155,7 @@ function Profile() {
                     onChange={(e) => setCity(e.target.value)}
                     />
                 ) : (
-                    user.user_city
+                    <div>{city}</div>
                 )}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -148,7 +167,7 @@ function Profile() {
                     onChange={(e) => setState(e.target.value)}
                     />
                 ) : (
-                    user.user_state
+                    <div>{state}</div>
                 )}
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -160,7 +179,7 @@ function Profile() {
                     onChange={(e) => setZipCode(e.target.value)}
                     />
                 ) : (
-                    user.user_zip_code
+                    <div>{zipCode}</div>
                 )}
                 </ListGroup.Item>
             </ListGroup>

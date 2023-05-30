@@ -20,14 +20,13 @@ function Home(){
 
     useEffect(() => {
         if (selectedBreed === "Choose Breed") {
-            setDogssState(dogs)
+            setDogssState(allDogs)
         }
         else {
-        let ds = allDogs
-        const fd = ds.filter((dog) => {
+        const filteredDogs = allDogs.filter((dog) => {
             return dog.dog_breed.toLowerCase().includes(selectedBreed.toLowerCase())
         })
-        setDogssState(fd)}
+        setDogssState(filteredDogs)}
         // console.log(filterDogs)
         // setDogssState(filterDogs);
     }, [selectedBreed])

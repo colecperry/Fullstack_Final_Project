@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/App.css"
-import { allFavoritesState, dogsState, userState } from "../recoil/atoms"
+import { allFavoritesState, dogsState, userState, breederState } from "../recoil/atoms"
 import { useRecoilValue, useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -13,14 +13,16 @@ function DogPage() {
     const dogs = useRecoilValue(dogsState);
     const user = useRecoilValue(userState);
     const [allFavorites, setAllFavorites] = useRecoilState(allFavoritesState)
+    const [breeder, setBreeder] = useRecoilState(breederState)
     const [dogImage, setDogImage] = useState("")
     const [isLiked, setIsLiked] = useState(false);
     const navigate = useNavigate()
     // console.log("ID:", id);
-    // console.log("Dogs:", dogs);
+    console.log("Dogs:", dogs);
 
-    const dog = dogs?.find((dog) => dog.id == id);
-    // console.log("Dog:", dog);
+    // const dog = dogs?.find((dog) => dog.id == id);
+    const dog = dogs?.find((dog) => dog.breeder_id == dog.user.id);
+    console.log("Dog:", dog);
 
     const favoritesArray = allFavorites.filter((favorite)=> {
         if (favorite.user.id === user.id && favorite.dog.id === dog.id)
@@ -119,7 +121,11 @@ function DogPage() {
                         // <FaHeart classname="fullHeart" onClick={() => window.alert("You've already liked this post!")}/>
                         // : <FaRegHeart classname="emptyHeart" onClick={onLikeButtonClick} />} */}
                     </div>
-                    <Button onClick={() => navigate("/messages")}>
+                    <Button onClick={() => {
+                        setBreeder(dog.user)
+                        navigate("/messages")
+                    }
+                    }>
                         Contact {firstName}
                     </Button>
                     <h2 style={{ marginLeft: "0" }}>About {dog.dog_name}</h2>

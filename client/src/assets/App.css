@@ -54,3 +54,17 @@
   border: 1px solid #ccc; /* Add desired border styles */
   margin: 50px;
 }
+
+.loginContainer {
+  width: 600px;
+  margin: auto;
+
+}
+
+.headerContainer {
+  width: 600px;
+  margin: auto;
+  
+
+}
+

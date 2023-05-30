@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { allMessagesState, userState } from "../recoil/atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 function MessageForm({ messageReceiverId }) {
     const [messageBody, setMessageBody] = useState("");
+    const [receiverName, setReceiverName] = useState("")
     const user = useRecoilValue(userState);
     const [messages, setMessages] = useRecoilState(allMessagesState);
     console.log(messageReceiverId)
+
+    useEffect(()=> {
+        fetch(`/users/${messageReceiverId}`)
+        .then((r)=>{
+            r.json().then((user) => {
+                const first_name = user.user_name.split(" ")[0]
+                setReceiverName(first_name)
+            });
+        })
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -61,7 +72,7 @@ function MessageForm({ messageReceiverId }) {
 
     return (
         <form onSubmit={handleSubmit}>
-        <label htmlFor="messageBody">Message Body:</label>
+        <label htmlFor="messageBody">Message {receiverName}: </label>
         <input
             type="text"
             id="messageBody"
