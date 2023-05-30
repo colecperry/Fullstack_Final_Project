@@ -30,8 +30,8 @@ function Filter({ selectedBreed, setSelectedBreed }) {
     return (
         <select class="ui dropdown"
         style = {{
-            marginBottom: "15px",
-            marginTop: "5px",
+            marginBottom: "20px",
+            marginTop: "10px",
             borderRadius: "10px 10px 10px 10px",
             height: "40px",
             width: "200px"

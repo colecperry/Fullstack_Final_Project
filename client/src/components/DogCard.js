@@ -2,7 +2,7 @@ import React from "react";
 import "../assets/App.css"
 import { useState, useEffect } from "react";
 import {Link, useNavigate} from "react-router-dom"
-import { Card } from "semantic-ui-react";
+// import { Card } from "semantic-ui-react";
 
 function DogCard({ dog }) {
     const [image, setImage] = useState("")
@@ -36,30 +36,34 @@ function DogCard({ dog }) {
     }
 
     return (
-        <Card  className="ui card custom-card">
-            <div onClick={handleCardClick}>
+            <div className="card" onClick={handleCardClick}>
                 <div className="image">
-                <img
-                    src={dog.dog_image}
-                    alt="dog"
-                    style={{ width: "100px", height: "100px" }}
-                />
+                    <img
+                        src={dog.dog_image}
+                        alt="dog"
+                        style={{
+                        width: "200px", 
+                        height: "200px",
+                        display: "block",
+                        margin: "0 auto",
+                        objectFit: "cover",
+                        }}
+                    />
                 </div>
-                <div className="content">
-                <a className="dog name">{dog.dog_name}</a>
-                <div className="meta">
-                    <span className="breed">{dog.dog_breed}</span>
+                <div className="content" style={{marginBottom: "0px"}}>
+                    <a className="dog name" style={{ fontSize: "30px"}}>{dog.dog_name}</a>
+                <div className="meta" style={{marginTop: "5px", marginBottom: "5px"}}>
+                    <span className="breed" style={{ fontSize: "20px"}}>{dog.dog_breed}</span>
                 </div>
-                <div className="age">{dog.dog_age}</div>
+                <div className="age" style={{ fontSize: "16px"}}>{dog.dog_age}</div>
                 </div>
                 <div className="extra content">
-                <a>
-                    <i className="user icon"></i>
-                    {dog.dog_gender}
-                </a>
+                    <a style={{ fontSize: "18px"}}>
+                        <i className="user icon"></i>
+                        {dog.dog_gender}
+                    </a>
                 </div>
             </div>
-        </Card>
         );
     }
 

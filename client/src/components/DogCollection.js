@@ -15,10 +15,21 @@ function DogCollection() {
     // console.log(renderDogs)
 
     return (
-        <div>
-            <Card.Group>
-                {renderDogs}
-            </Card.Group>
+        <div style={{
+            // display: "flex",
+            // justifyContent: "center",
+            // alignItems: "center",
+            // marginLeft: '75px'
+            }}>
+            <div class="ui link cards"
+            style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            }}
+            >
+                    {renderDogs}
+            </div>
         </div>
     );
 }
