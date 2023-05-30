@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react"
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+import { Button, Form } from 'semantic-ui-react'
 import { Navigate, useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil"
 import { userState } from "../recoil/atoms"
+import { FaDog } from 'react-icons/fa';
 
 function CreateAccount() {
     const [userName, setUserName] = useState('')
@@ -18,8 +18,8 @@ function CreateAccount() {
     const navigate = useNavigate()
 
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
+        // event.preventDefault();
     
         let newUser = {
             user_name: userName,
@@ -32,9 +32,10 @@ function CreateAccount() {
             user_state: state,
             user_zip_code: zipCode
         };
+
+        // console.log(newUser);
     
-        try {
-            const response = await fetch('/users', {
+            const response = await fetch('/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -45,59 +46,78 @@ function CreateAccount() {
             if (response.ok) {
                 const user = await response.json();
                 setUser(user);
+                console.log(user)
                 // Redirect to the desired location using the `Navigate` component
                 navigate("/home");
             } else {
                 throw new Error('Failed to create user');
             }
-        } catch (error) {
-            console.log(error);
-            // Handle the error condition
-        }
     };
 
 
     return (
         <div className="container">
+            <h1 style={{
+            paddingTop:"50px",
+            paddingBottom:"50px",
+            fontSize:"3.5rem",
+            textAlign: "center",
+            fontFamily: 'Verdana, sans-serif'
+            }}>Doggio
+            <FaDog/>
+            </h1> 
+            <h2 style={{
+            paddingTop:"0px",
+            paddingBottom:"0px",
+            fontSize:"2rem",
+            textAlign: "center",
+            fontFamily: 'Verdana, sans-serif'
+            }}>Create Account
+            </h2> 
+        <div className='loginContainer'>
             <Form onSubmit={(event) => handleSubmit(event)}>
-            <Form.Group className="mb-3" controlId="formBasicName">
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control value={userName} onChange={e => setUserName(e.target.value)} type="name" placeholder="Enter full name" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
-                <Form.Label>Enter Phone Number</Form.Label>
-                <Form.Control type="phonenumber" placeholder="Phone number" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicAddress">
-                <Form.Label>Enter Address</Form.Label>
-                <Form.Control type="text" placeholder="Enter Address" value={address} onChange={e => setAddress(e.target.value)} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCity">
-                <Form.Label>Enter City</Form.Label>
-                <Form.Control type="text" placeholder="Enter City" value={city} onChange={e => setCity(e.target.value)} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicState">
-                <Form.Label>Enter State</Form.Label>
-                <Form.Control type="text" placeholder="Enter State" value={state} onChange={e => setState(e.target.value)} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicZipCode">
-                <Form.Label>Enter Zip Code</Form.Label>
-                <Form.Control type="text" placeholder="Enter Zip Code" value={zipCode} onChange={e => setZipCode(e.target.value)} />
-            </Form.Group>
-            <div style={{ marginTop: '20px' }}>
-                <Button variant="secondary" type="submit">
-                SignUp
-                </Button>
-            </div>
+                <Form.Field className="mb-3" controlId="formBasicName">
+                    <label>Full Name</label>
+                    <input value={userName} onChange={e => setUserName(e.target.value)} placeholder="Enter full name" />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicEmail">
+                    <label>Email address</label>
+                    <input type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicPassword">
+                    <label>Password</label>
+                    <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicPhoneNumber">
+                    <label>Enter Phone Number</label>
+                    <input placeholder="Phone number" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicAddress">
+                    <label>Enter Address</label>
+                    <input type="text" placeholder="Enter Address" value={address} onChange={e => setAddress(e.target.value)} />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicCity">
+                    <label>Enter City</label>
+                    <input type="text" placeholder="Enter City" value={city} onChange={e => setCity(e.target.value)} />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicState">
+                    <label>Enter State</label>
+                    <input type="text" placeholder="Enter State" value={state} onChange={e => setState(e.target.value)} />
+                </Form.Field>
+                <Form.Field className="mb-3" controlId="formBasicZipCode">
+                    <label>Enter Zip Code</label>
+                    <input type="text" placeholder="Enter Zip Code" value={zipCode} onChange={e => setZipCode(e.target.value)} />
+                </Form.Field>
+                <div style={{ marginTop: '20px', marginBottom: '20px', textAlign: 'center' }}>
+                    <Button variant="secondary" type="submit"
+                    style={{
+                        marginBottom: '20px'
+                    }}>
+                    SignUp
+                    </Button>
+                </div>
             </Form>
+            </div>
         </div>
         );
 }

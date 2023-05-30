@@ -1,5 +1,6 @@
 from flask import Flask, make_response, jsonify, request, session
 from config import app, db
+import ipdb;
 
 
 from models import db, Dog, User, Favorite, Message
@@ -157,7 +158,7 @@ def signup():
                 user_name=formData['user_name'],
                 user_image=formData['user_image'],
                 user_email=formData['user_email'],
-                _password_hash=formData['_password_hash'],
+                password_hash=formData['_password_hash'],
                 user_phone_number=formData['user_phone_number'],
                 user_address=formData['user_address'],
                 user_city=formData['user_city'],
@@ -166,6 +167,7 @@ def signup():
             )
             db.session.add(new_user)
             db.session.commit()
+            # ipdb.set_trace()
             # Create a cookie for the current user
             session['user_id'] = new_user.id
             response = make_response(new_user.to_dict(), 201)
