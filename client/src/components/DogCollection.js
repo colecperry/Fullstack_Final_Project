@@ -16,7 +16,6 @@ function DogCollection() {
 
     return (
         <div>
-            <h1>Hello From Dog Collection</h1>
             <Card.Group>
                 {renderDogs}
             </Card.Group>

@@ -28,12 +28,27 @@ function Filter({ selectedBreed, setSelectedBreed }) {
     };
 
     return (
-        <select
+        <select class="ui dropdown"
+        style = {{
+            marginBottom: "15px",
+            marginTop: "5px",
+            borderRadius: "10px 10px 10px 10px",
+            height: "40px",
+            width: "200px"
+        }}
         placeholder="Choose Breed"
         value={selectedBreed}
         onChange={handleDropDownMenu}
         >
-        <option value="Choose Breed">Choose Breed</option>
+        <option
+        value="Choose Breed"
+        style= {{
+            fontWeight: 'bold',
+            fontSize: '25px'
+        }}
+        >
+            Choose Breed
+        </option>
         {renderFilter}
         </select>
     );
