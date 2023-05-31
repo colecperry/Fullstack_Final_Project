@@ -1,9 +1,9 @@
 import React from 'react'
 import MessageForm from './MessageForm';
 import { useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 import "../assets/App.css"
 import { useNavigate, useParams } from 'react-router-dom';
 import { allMessagesState, userState } from '../recoil/atoms';
@@ -41,11 +41,14 @@ function Chats() {
 
     function renderSingleMessage(messageReceiver, messageSender, messageBody) {
         return (
-            <Container fluid="lg" className="chats">
-                <Row>
-                    <Col>{messageSender}: {messageBody}</Col>
-                </Row>
-            </Container>
+            <div className="ui small message" style={{marginBottom: "10px",
+            width: "50%",
+            marginLeft: "10px",
+            marginLeft: "auto",
+            marginRight: "auto"
+            }}>
+                    <p><b>{messageSender}:</b> {messageBody}</p>
+            </div>
         );
     }
 
