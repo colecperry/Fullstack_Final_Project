@@ -49,7 +49,7 @@ function Messages() {
     const message_dict_entries = Object.entries(message_dict)
     const message_box_components = message_dict_entries.map(
         ([key, value]) => {
-            return renderMessageBox(id_to_name[key], value)
+            return renderMessageBox(key, id_to_name[key], value)
         }
     )
 
@@ -82,9 +82,11 @@ function Messages() {
         </div>
     );
 
-    function renderMessageBox(messageReceiver, messageBody) {
+    function renderMessageBox(receiver_id, messageReceiver, messageBody) {
+        console.log("receiver_id", receiver_id)
+        console.log("messageReceiver", messageReceiver)
         return (
-            <Container fluid="lg" className="messages" onClick={() => navigate("/chats")}>
+            <Container fluid="lg" className="messages" onClick={() => navigate(`/chats/${receiver_id}`)}>
                 <Row>
                     <Col><b>{messageReceiver}</b></Col>
                 </Row>

@@ -40,7 +40,7 @@ const [ user, setUser ] = useRecoilState(userState);
         {/* <Route path="/profile-page/:id" element={<> <NavBar/> <ProfileForm/> </>} /> */}
         <Route path="/profile" element={<> <NavBar/> <Profile/> </>} />
         <Route path="/messages" element={<> <NavBar/> <Messages/> </>} />
-        <Route path="/chats" element={<> <NavBar/> <Chats/> </>} />
+        <Route path="/chats/:receiver_user_id" element={<> <NavBar/> <Chats/> </>} />
         <Route path="/favorites" element={<> <NavBar/> <FavoritesCollection/> </>} />
         {/* <Route path="/checkout" element={<> <NavBar/> <Checkout/> </>} /> */}
       </Routes>

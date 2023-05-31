@@ -33,8 +33,8 @@ function DogCard({ dog }) {
 
     const handleCardClick = () => {
         const dog_id = dog.id
-        console.log(dog)
-        console.log(dog.id)
+        // console.log(dog)
+        // console.log(dog.id)
         navigate(`/dog-page/${dog_id}`);
     }
     
