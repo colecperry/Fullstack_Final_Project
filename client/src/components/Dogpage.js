@@ -17,15 +17,35 @@ function DogPage() {
     const [breeder, setBreeder] = useRecoilState(breederState)
     const [dogImage, setDogImage] = useState("")
     const [isLiked, setIsLiked] = useState(false);
+    const [error, setError] = useState([])
+    const [dog, setDog] = useState([])
     const navigate = useNavigate()
     // console.log("ID:", id);
     // console.log("Dogs:", dogs);
 
     // window.location.reload();
 
-    const dog = dogs?.find((dog) => dog.id == id);
+    // const dog = dogs?.find((dog) => dog.id == id);
     // const breederDogs = dogs?.find((dog) => dog.breeder_id == dog.user.id);
     // console.log("Dog:", dog);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`/dogs/${id}`);
+                if (!response.ok) {
+                throw new Error('Request failed');
+                }
+                const responseData = await response.json();
+                setDog(responseData);
+            } catch (error) {
+                setError(error.message);
+            } 
+            
+            };
+        
+            fetchData();
+        }, []);
 
     console.log(allFavorites)
     const favoritesArray = allFavorites.filter((favorite)=> {
@@ -81,7 +101,7 @@ function DogPage() {
         //     const match = fullName.match(regex);
         //     return match ? match[0] : '';
         // }
-        const firstName = dog.user.user_name.split(' ')[0]
+        const firstName = dog?.user?.user_name.split(' ')[0]
 
         return (
             <div className="dog-page-container" style={{fontFamily: 'Verdana, sans-serif'}}>
