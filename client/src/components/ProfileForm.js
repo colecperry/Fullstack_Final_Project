@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil/atoms";
 
 
 
@@ -11,6 +13,7 @@ function ProfileForm({user, isEditingProfile, setIsEditingProfile}) {
     const [city, setCity] = useState(user.user_city);
     const [state, setState] = useState(user.user_state);
     const [zipCode, setZipCode] = useState(user.user_zip_code);
+    const [user2, setUser2] = useRecoilState(userState)
     const navigate = useNavigate();
 
 
@@ -31,24 +34,26 @@ const handleSubmit = () => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
+            },
+            body: JSON.stringify(userData),
         })
-        .then((response) => {
+            .then((response) => {
             if (response.ok) {
-            console.log('User updated successfully');
-            // console.log(response)
-            // navigate("/profile");
+                console.log('User updated successfully');
+                return response.json(); // Parse the response as JSON
             } else {
-            console.log('Failed to update user');
+                console.log('Failed to update user');
+                throw new Error('Failed to update user');
             }
-            setIsEditingProfile(!isEditingProfile)
-            window.location.reload();
-        })
-        .catch((error) => {
+            })
+            .then((updatedUser) => {
+            setUser2(updatedUser); // Update the user state with the updated user data
+            setIsEditingProfile(!isEditingProfile);
+            })
+            .catch((error) => {
             console.log('Error updating user:', error);
-        });
-    };
+            });
+        }
 
 
 

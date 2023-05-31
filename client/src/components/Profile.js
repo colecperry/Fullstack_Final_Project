@@ -12,6 +12,8 @@ function Profile() {
         setIsEditingProfile(!isEditingProfile);
     };
 
+    // console.log(user)
+
 
         // setName(name)
         // setEmail(email)

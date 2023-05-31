@@ -70,8 +70,10 @@ function FavoritesCollection() {
             //     {renderFavorites}
             //     </Card.Group>
             // </div>
+        
 
         <div>
+        {/* <h2 style={{fontFamily: 'Verdana, sans-serif'}}>Favorites</h2> */}
             <div class="ui link cards"
             style={{
             display: "flex",
