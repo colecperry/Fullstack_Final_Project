@@ -71,17 +71,27 @@ function MessageForm({ messageReceiverId }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-        <label htmlFor="messageBody">Message {receiverName}: </label>
-        <input
-            type="text"
-            id="messageBody"
-            value={messageBody}
-            onChange={(e) => setMessageBody(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-        </form>
-    );
+        // <form onSubmit={handleSubmit}>
+        // <label htmlFor="messageBody">Message {receiverName}: </label>
+        // <input
+        //     type="text"
+        //     id="messageBody"
+        //     value={messageBody}
+        //     onChange={(e) => setMessageBody(e.target.value)}
+        // />
+        // <button type="submit">Submit</button>
+        // </form>
+
+        <div class="ui small form" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div class="field" style={{ width: "50%" }}>
+            <label>Message {receiverName}: </label>
+            <input value={messageBody} type="text" onChange={(e) => setMessageBody(e.target.value)} />
+        </div>
+        <div style={{ marginTop: "10px" }}>
+            <div class="ui submit button" onClick={handleSubmit}>Submit</div>
+        </div>
+        </div>
+            );
 }
 
 export default MessageForm;

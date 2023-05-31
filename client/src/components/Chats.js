@@ -45,7 +45,8 @@ function Chats() {
             width: "50%",
             marginLeft: "10px",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            textAlign: "left" 
             }}>
                     <p><b>{messageSender}:</b> {messageBody}</p>
             </div>
