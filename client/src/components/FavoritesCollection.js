@@ -65,12 +65,23 @@ function FavoritesCollection() {
         // console.log(renderDogs)
     
         return (
-            <div>
-            <h1>Hello From Favorites Collection</h1>
-                <Card.Group itemsPerRow={4}>
-                {renderFavorites}
-                </Card.Group>
+            // <div>
+            //     <Card.Group itemsPerRow={4}>
+            //     {renderFavorites}
+            //     </Card.Group>
+            // </div>
+
+        <div>
+            <div class="ui link cards"
+            style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            }}
+            >
+            {renderFavorites}
             </div>
+        </div>
         );
     }
 

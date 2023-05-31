@@ -28,7 +28,7 @@ function DogCollection() {
             alignItems: "center",
             }}
             >
-                    {renderDogs}
+            {renderDogs}
             </div>
         </div>
     );
