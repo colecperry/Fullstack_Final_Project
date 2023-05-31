@@ -19,51 +19,24 @@ function DogPage() {
     const [isLiked, setIsLiked] = useState(false);
     const navigate = useNavigate()
     // console.log("ID:", id);
-    console.log("Dogs:", dogs);
+    // console.log("Dogs:", dogs);
 
     const dog = dogs?.find((dog) => dog.id == id);
-    const breederDogs = dogs?.find((dog) => dog.breeder_id == dog.user.id);
+    // const breederDogs = dogs?.find((dog) => dog.breeder_id == dog.user.id);
     // console.log("Dog:", dog);
 
+    console.log(allFavorites)
     const favoritesArray = allFavorites.filter((favorite)=> {
-        if (favorite.user.id === user.id && favorite.dog.id === breederDogs.id)
+        console.log(id)
+        if (favorite.user.id == user.id && favorite.dog.id == id)
             return favorite
     })
     // console.log("favorite", favoritesArray)
-
+    console.log(favoritesArray)
     const specificLike = favoritesArray[0]
 
     // console.log("specific like", specificLike)
-        
 
-    // useEffect(() => {
-    //     if (dog) {
-    //         const { dog_breed } = dog;
-    //         const breed = dog_breed.split(" ");
-    //         if (breed.length === 1) {
-    //             fetch(`https://dog.ceo/api/breed/${dog_breed.toLowerCase()}/images/random`)
-    //             .then((resp) => resp.json())
-    //             .then((data) => {
-    //                 setDogImage(data);
-    //             });
-    //         } else {
-    //             // format string
-    //             const reversedBreed = breed.reverse().join("/").toLowerCase();
-    //             fetch(`https://dog.ceo/api/breed/${reversedBreed}/images/random`)
-    //             .then((resp) => resp.json())
-    //             .then((data) => {
-    //                 setDogImage(data);
-    //             });
-    //         }
-    //         }
-    //     }, []);
-        
-
-        // const likedDog = {
-        //     dog_id: parseInt(id),
-        //     user_id: user.id,
-        // }
-        // console.log("LikedDog:", likedDog)
 
         const handleLikeButton = () => {
             //*DELETE EXISTING LIKE
