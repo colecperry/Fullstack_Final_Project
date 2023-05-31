@@ -14,17 +14,17 @@ function Messages() {
     const allMessages = useRecoilValue(allMessagesState);
     const user = useRecoilValue(userState);
     const breeder = useRecoilValue(breederState)
+    console.log("breeder", breeder)
     const user_id = user.id;
 
     const breeder_name = breeder?.user_name
     const breeder_id = breeder.id
+    console.log("breeder_id", breeder_id)
 
     const messages_for_curr_user = 
         allMessages.filter(
             (message) => (user_id === message.sending_user?.id)
         )
-
-    console.log(messages_for_curr_user)
     
 
     let message_dict = {}
@@ -71,7 +71,7 @@ function Messages() {
     //     return null; // Return null if no recent message is found
     // }
 
-    const display_message_form = breeder.id !== 0
+    const display_message_form = breeder_id !== 0
 
     return (
         <div>
@@ -83,8 +83,6 @@ function Messages() {
     );
 
     function renderMessageBox(receiver_id, messageReceiver, messageBody) {
-        console.log("receiver_id", receiver_id)
-        console.log("messageReceiver", messageReceiver)
         return (
             <Container fluid="lg" className="messages" onClick={() => navigate(`/chats/${receiver_id}`)}>
                 <Row>

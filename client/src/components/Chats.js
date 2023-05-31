@@ -43,7 +43,7 @@ function Chats() {
         return (
             <Container fluid="lg" className="chats">
                 <Row>
-                    <Col>{messageBody}</Col>
+                    <Col>{messageSender}: {messageBody}</Col>
                 </Row>
             </Container>
         );
