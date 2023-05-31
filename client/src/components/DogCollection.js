@@ -10,6 +10,7 @@ function DogCollection() {
 
 
     const renderDogs = dogs?.map((dog) => {
+        // console.log(dog.id)
         return <DogCard dog={dog} key={dog.id} />;
     });
     // console.log(renderDogs)

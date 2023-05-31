@@ -21,12 +21,12 @@ function DogPage() {
     // console.log("ID:", id);
     console.log("Dogs:", dogs);
 
-    // const dog = dogs?.find((dog) => dog.id == id);
-    const dog = dogs?.find((dog) => dog.breeder_id == dog.user.id);
-    console.log("Dog:", dog);
+    const dog = dogs?.find((dog) => dog.id == id);
+    const breederDogs = dogs?.find((dog) => dog.breeder_id == dog.user.id);
+    // console.log("Dog:", dog);
 
     const favoritesArray = allFavorites.filter((favorite)=> {
-        if (favorite.user.id === user.id && favorite.dog.id === dog.id)
+        if (favorite.user.id === user.id && favorite.dog.id === breederDogs.id)
             return favorite
     })
     // console.log("favorite", favoritesArray)
@@ -99,7 +99,7 @@ function DogPage() {
         //     setIsLiked(!isLiked)
         //     handleLikedDog(likedDog)
         // }
-        console.log(dog)
+        // console.log(dog)
 
         // function extractFirstName(fullName) {
         //     const regex = /^[^\s]+/;

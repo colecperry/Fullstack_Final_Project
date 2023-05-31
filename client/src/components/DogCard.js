@@ -29,12 +29,15 @@ function DogCard({ dog }) {
 
     // }, []);
 
-    console.log(image)
+    // console.log(image)
 
     const handleCardClick = () => {
-        navigate(`/dog-page/${dog.id}`);
+        const dog_id = dog.id
+        console.log(dog)
+        console.log(dog.id)
+        navigate(`/dog-page/${dog_id}`);
     }
-
+    
     return (
             <div className="card" onClick={handleCardClick}>
                 <div className="image">
