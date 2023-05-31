@@ -160,20 +160,20 @@ def seed_users():
         db.session.add(new_user)
     db.session.commit()
 
-def seed_messages():
-    users = User.query.all()
+# def seed_messages():
+#     users = User.query.all()
 
-    for user in users:
-        dog_id = randint(1,100),
-        new_message1 = Message(
-            message_sender_id = user.id,
-            message_receiver_id = randint(1,10),
-            dog_id = dog_id[0],
-            message_body = f"Hey, I am {user.id} interested in your dog with the id of {dog_id}! "
+#     for user in users:
+#         dog_id = randint(1,100),
+#         new_message1 = Message(
+#             message_sender_id = user.id,
+#             message_receiver_id = randint(1,10),
+#             dog_id = dog_id[0],
+#             message_body = f"Hey, I am {user.id} interested in your dog with the id of {dog_id}! "
             
-        )
-        db.session.add(new_message1)
-    db.session.commit()
+#         )
+#         db.session.add(new_message1)
+#     db.session.commit()
 
 # def seed_messages(user_id):
 #     dogs = Dog.query.all()
@@ -210,8 +210,8 @@ if __name__ == '__main__':
         print('Seeded dogs')
         seed_users()
         print('Seeded users')
-        seed_messages()
-        print('Seeded messages')
+        # seed_messages()
+        # print('Seeded messages')
         # seed_favorites()
         # print('Seeded favorites')
         print('Done!')
