@@ -21,6 +21,8 @@ function DogPage() {
     // console.log("ID:", id);
     // console.log("Dogs:", dogs);
 
+    // window.location.reload();
+
     const dog = dogs?.find((dog) => dog.id == id);
     // const breederDogs = dogs?.find((dog) => dog.breeder_id == dog.user.id);
     // console.log("Dog:", dog);

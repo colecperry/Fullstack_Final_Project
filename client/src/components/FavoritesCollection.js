@@ -73,7 +73,7 @@ function FavoritesCollection() {
         
 
         <div>
-        {/* <h2 style={{fontFamily: 'Verdana, sans-serif'}}>Favorites</h2> */}
+        <h1 style={{fontFamily: 'Verdana, sans-serif'}}>Favorites</h1>
             <div class="ui link cards"
             style={{
             display: "flex",
