@@ -1,9 +1,15 @@
 from flask import Flask, make_response, jsonify, request, session
-from config import app, db
+from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
+from config import app, db, CORS, os
 import ipdb;
+
+CORS(app)
 
 
 from models import db, Dog, User, Favorite, Message
+
+app.config.from_object('config')
 
 @app.route('/dogs', methods=['GET', 'POST'])
 

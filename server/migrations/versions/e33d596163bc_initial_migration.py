@@ -1,8 +1,8 @@
-"""empty message
+"""initial migration
 
-Revision ID: 9d299585436e
+Revision ID: e33d596163bc
 Revises: 
-Create Date: 2023-05-30 12:52:42.675798
+Create Date: 2023-10-11 16:30:55.344369
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9d299585436e'
+revision = 'e33d596163bc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,12 +24,12 @@ def upgrade():
     sa.Column('user_image', sa.String(), nullable=True),
     sa.Column('user_email', sa.String(), nullable=True),
     sa.Column('_password_hash', sa.String(), nullable=True),
-    sa.Column('user_phone_number', sa.Integer(), nullable=True),
+    sa.Column('user_phone_number', sa.String(), nullable=True),
     sa.Column('user_address', sa.String(), nullable=True),
     sa.Column('user_city', sa.String(), nullable=True),
     sa.Column('user_state', sa.String(), nullable=True),
     sa.Column('user_zip_code', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -48,13 +48,13 @@ def upgrade():
     sa.Column('up_for_adoption', sa.Boolean(), nullable=True),
     sa.Column('mother_name', sa.String(), nullable=True),
     sa.Column('mother_breed', sa.String(), nullable=True),
-    sa.Column('mother_weight', sa.Integer(), nullable=True),
-    sa.Column('mother_age', sa.Integer(), nullable=True),
+    sa.Column('mother_weight', sa.String(), nullable=True),
+    sa.Column('mother_age', sa.String(), nullable=True),
     sa.Column('father_name', sa.String(), nullable=True),
     sa.Column('father_breed', sa.String(), nullable=True),
-    sa.Column('father_weight', sa.Integer(), nullable=True),
-    sa.Column('father_age', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('father_weight', sa.String(), nullable=True),
+    sa.Column('father_age', sa.String(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['breeder_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -63,7 +63,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('dog_id', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['dog_id'], ['dogs.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
@@ -75,7 +75,7 @@ def upgrade():
     sa.Column('message_receiver_id', sa.Integer(), nullable=True),
     sa.Column('message_body', sa.String(), nullable=True),
     sa.Column('dog_id', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['dog_id'], ['dogs.id'], ),
     sa.ForeignKeyConstraint(['message_receiver_id'], ['users.id'], ),

@@ -205,17 +205,17 @@ if __name__ == '__main__':
         Message.query.delete()
         Favorite.query.delete()
         db.session.commit()
+        print('Seeded users')
+        seed_users()
         print('Seeding...')
         seed_dogs()
         print('Seeded dogs')
-        seed_users()
-        print('Seeded users')
         # seed_messages()
         # print('Seeded messages')
         # seed_favorites()
         # print('Seeded favorites')
         print('Done!')
 
-        ipdb.set_trace()
+        # ipdb.set_trace()
 
 
