@@ -30,7 +30,7 @@ function FavoritesCollection() {
     
 
         useEffect(()=> {
-            fetch("/favorites")
+            fetch("https://doggio.onrender.com/favorites")
             .then(r=>r.json())
             .then(favorites=>setDogFavorites(favorites))
         }, [])

@@ -9,7 +9,7 @@ function NavBar () {
     const setUser = useSetRecoilState(userState)
 
     function handleLogoutClick() {
-        fetch("/logout", { method: "DELETE" }).then((r) => {
+        fetch("https://doggio.onrender.com/logout", { method: "DELETE" }).then((r) => {
             if (r.ok) {
                 setUser(null);
             }

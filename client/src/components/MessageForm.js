@@ -10,7 +10,7 @@ function MessageForm({ messageReceiverId }) {
     console.log(messageReceiverId)
 
     useEffect(()=> {
-        fetch(`/users/${messageReceiverId}`)
+        fetch(`https://doggio.onrender.com/users/${messageReceiverId}`)
         .then((r)=>{
             r.json().then((user) => {
                 const first_name = user.user_name.split(" ")[0]
@@ -32,7 +32,7 @@ function MessageForm({ messageReceiverId }) {
         console.log(messageData)
 
         // Send POST request to the /messages endpoint
-        fetch("/messages", {
+        fetch("https://doggio.onrender.com/messages", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

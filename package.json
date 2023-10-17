@@ -8,7 +8,7 @@
     "start": "node server.js",
     "test": "jest",
     "build": "npm run build:firebase",
-    "build:firebase": "react-scripts build --basepath client",
+    "build:firebase": "react-scripts build --basepath client --public-url /client/public",
     "deploy": "firebase deploy"
   }
 }

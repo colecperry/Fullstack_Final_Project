@@ -30,7 +30,7 @@ const handleSubmit = () => {
     user_zip_code: zipCode
     };
 
-    fetch(`/users/${user.id}`, {
+    fetch(`https://doggio.onrender.com/users/${user.id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

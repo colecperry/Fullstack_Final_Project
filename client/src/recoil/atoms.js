@@ -34,7 +34,7 @@ export const dogsState = atom({
     default: selector( {
         key: 'dogLoader',
         get: async () => {
-                const response = await fetch("/dogs");
+                const response = await fetch("https://doggio.onrender.com/dogs");
                 const data = await response.json()
                 console.log("data:", data)
                 return data
@@ -49,7 +49,7 @@ export const allDogsState = atom({
     default: selector( {
         key: 'allDogsLoader',
         get: async () => {
-                const response = await fetch("/dogs");
+                const response = await fetch("https://doggio.onrender.com/dogs");
                 const data = await response.json()
                 return data
             }
@@ -63,7 +63,7 @@ export const allFavoritesState = atom({
     default: selector( {
         key: 'favoritesLoader',
         get: async () => {
-                const response = await fetch("/favorites");
+                const response = await fetch("https://doggio.onrender.com/favorites");
                 const data = await response.json()
                 return data
             }
@@ -77,7 +77,7 @@ export const allMessagesState= atom({
     default: selector( {
         key: 'messagesLoader',
         get: async () => {
-                const response = await fetch("/messages");
+                const response = await fetch("https://doggio.onrender.com/messages");
                 const data = await response.json()
                 return data
             }

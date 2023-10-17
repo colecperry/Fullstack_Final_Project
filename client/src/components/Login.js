@@ -19,7 +19,7 @@ function Login() {
     function handleSubmit() {
         // e.preventDefault()
         setErrors(null)
-        fetch("/login", {
+        fetch("https://doggio.onrender.com/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

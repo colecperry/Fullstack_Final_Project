@@ -32,7 +32,7 @@ function DogPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/dogs/${id}`);
+                const response = await fetch(`https://doggio.onrender.com/dogs/${id}`);
                 if (!response.ok) {
                 throw new Error('Request failed');
                 }
@@ -63,7 +63,7 @@ function DogPage() {
         const handleLikeButton = () => {
             //*DELETE EXISTING LIKE
             if (specificLike) {
-                fetch(`/favorites/${specificLike.id}`, {
+                fetch(`https://doggio.onrender.com/favorites/${specificLike.id}`, {
                     method: "DELETE", 
                 })
                 .then(()=>{
@@ -76,7 +76,7 @@ function DogPage() {
                     dog_id: parseInt(id),
                     user_id: user.id,
                 }
-                fetch("/favorites", {
+                fetch("https://doggio.onrender.com/favorites", {
                     method: "POST",
                     headers: {
                         "Content-Type":"application/json",

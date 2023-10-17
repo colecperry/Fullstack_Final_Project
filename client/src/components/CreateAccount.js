@@ -35,7 +35,7 @@ function CreateAccount() {
 
         // console.log(newUser);
     
-            const response = await fetch('/signup', {
+            const response = await fetch('https://doggio.onrender.com/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
