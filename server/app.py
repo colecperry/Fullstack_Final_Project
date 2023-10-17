@@ -353,6 +353,6 @@ def get_favorites_by_id(id):
         return {"error": 'User not found'}, 404
 
 if __name__ == '__main__':
-    # app.run(port=5555, debug=True)
-    app.run()
+    app.run(port=5555, debug=True)
+    # app.run()
 
