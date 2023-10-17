@@ -22,7 +22,7 @@ Flask-Migrate==4.0.4
 Flask-SQLAlchemy==3.0.5
 gunicorn==21.2.0
 idna==3.4
-# importlib-metadata==4.8.2
+importlib-metadata==4.8.2
 importlib-resources==5.12.0
 ipdb==0.13.13
 ipython==7.34.0
@@ -39,7 +39,7 @@ packaging==23.2
 parso==0.8.3
 pexpect==4.8.0
 pickleshare==0.7.5
-# Pillow==10.0.1
+Pillow==10.0.1
 pipenv==2023.2.4
 platformdirs==3.0.0
 prompt-toolkit==3.0.39
@@ -63,5 +63,5 @@ urllib3==2.0.4
 virtualenv==20.19.0
 virtualenv-clone==0.5.7
 wcwidth==0.2.6
-Werkzeug==2.3.7
-# zipp==3.16.2
+Werkzeug==2.2.3
+zipp==3.16.2
