@@ -1,64 +1,72 @@
+/**
+ * Filter.js
+ *
+ * This component provides a dropdown menu for selecting a dog breed to filter
+ * the list of dogs displayed elsewhere in the app. It pulls data from the
+ * allDogsState Recoil atom, extracts unique breeds, and allows the user to
+ * update the selectedBreed state in the parent component.
+ */
+
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { allDogsState } from "../recoil/atoms";
 import { Dropdown } from "semantic-ui-react";
 
 function Filter({ selectedBreed, setSelectedBreed }) {
+    // Get the full list of dogs from global Recoil state
     const allDogs = useRecoilValue(allDogsState);
 
     // Create a Set to store unique dog breeds
     const uniqueBreeds = new Set();
 
-    // Iterate through allDogs and add each dog_breed to the uniqueBreeds Set
+    // Populate the Set with each dog's breed
     allDogs?.forEach((dog) => {
         uniqueBreeds.add(dog.dog_breed);
     });
 
-    // Convert the Set back to an array and sort it alphabetically
+    // Convert the Set to an alphabetically sorted array
     const uniqueBreedsArray = Array.from(uniqueBreeds).sort();
 
+    // Render each breed as an <option> in the dropdown
     const renderFilter = uniqueBreedsArray.map((dog_breed) => (
         <option key={dog_breed} value={dog_breed}>
-        {dog_breed}
+            {dog_breed}
         </option>
     ));
 
+    // Update selected breed when dropdown changes
     const handleDropDownMenu = (event) => {
         setSelectedBreed(event.target.value);
     };
 
     return (
-        <select class="ui dropdown"
-        style = {{
-            marginBottom: "20px",
-            marginTop: "10px",
-            borderRadius: "10px 10px 10px 10px",
-            height: "40px",
-            width: "200px"
-        }}
-        placeholder="Choose Breed"
-        value={selectedBreed}
-        onChange={handleDropDownMenu}
+        <select className="ui dropdown"
+            style={{
+                marginBottom: "20px",
+                marginTop: "10px",
+                borderRadius: "10px 10px 10px 10px",
+                height: "40px",
+                width: "200px"
+            }}
+            placeholder="Choose Breed"
+            value={selectedBreed}
+            onChange={handleDropDownMenu}
         >
-        <option
-        value="Choose Breed"
-        style= {{
-            fontWeight: 'bold',
-            fontSize: '25px'
-        }}
-        >
-            Choose Breed
-        </option>
-        {renderFilter}
+            {/* Placeholder option */}
+            <option
+                value="Choose Breed"
+                style={{
+                    fontWeight: 'bold',
+                    fontSize: '25px'
+                }}
+            >
+                Choose Breed
+            </option>
+
+            {/* Breed options */}
+            {renderFilter}
         </select>
     );
 }
 
 export default Filter;
-
-
-
-
-
-
-

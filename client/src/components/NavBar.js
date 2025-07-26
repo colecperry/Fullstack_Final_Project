@@ -1,3 +1,16 @@
+/**
+ * NavBar.js
+ *
+ * This component renders the top navigation bar for the Doggio app.
+ * It includes:
+ * - A brand header/logo with the Doggio name and dog icon.
+ * - Navigation links to Home, Profile, Messages, and Favorites pages.
+ * - A Logout button that clears the current user session via a DELETE request.
+ * 
+ * Navigation is handled using `react-router-dom` and icons from `react-icons/fa`.
+ * The logout updates the global user state using Recoil.
+ */
+
 import React from "react";
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { NavLink } from "react-router-dom";
@@ -6,8 +19,9 @@ import { useSetRecoilState } from "recoil"
 import { FaUser, FaEnvelope, FaCartPlus, FaDog, FaHeart } from 'react-icons/fa';
 
 function NavBar () {
-    const setUser = useSetRecoilState(userState)
+    const setUser = useSetRecoilState(userState);
 
+    // Logs out the current user and clears user state in Recoil
     function handleLogoutClick() {
         fetch("https://doggio.onrender.com/logout", { method: "DELETE" }).then((r) => {
             if (r.ok) {
@@ -16,81 +30,59 @@ function NavBar () {
         });
     }
 
-
-
     return (
-        // <Navbar bg="primary" variant="dark" expand="lg" sticky="top" style={{margin: "10px"}}>
-        // {/* <img src="https://i.postimg.cc/k5q6BfbH/4096325394.gif" alt="logo" style={{marginLeft: "20px", width:"30px", height:"30px"}}/> */}
-    
-        //     <Navbar.Brand style={{margin: "10px"}}>
-        //         Doggio
-        //     </Navbar.Brand>
-        //     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        //     < Navbar.Collapse id="basic-navbar-nav">
-        //         <Nav className="mr-auto">
-        //             <Nav.Link as={NavLink} to="/home">
-        //                 <FaDog /> Home
-        //             </Nav.Link>
-        //             <Nav.Link as={NavLink} to="/profile">
-        //                 <FaUser /> Profile
-        //             </Nav.Link>
-        //             <Nav.Link as={NavLink} to="/messages">
-        //                 <FaEnvelope /> Messages
-        //             </Nav.Link>
-        //             <Nav.Link as={NavLink} to="/favorites">
-        //                 <FaHeart /> Favorites
-        //             </Nav.Link>
-        //             <Nav.Link as={NavLink} to="/checkout">
-        //                 <FaCartPlus /> Checkout
-        //             </Nav.Link>
-        //             {/* <NavDropdown title={<><FaBell /> Notifications</>} id="basic-nav-dropdown">
-        //                 <NavDropdown.Item href="#notification"><FaBell /> Notification</NavDropdown.Item>
-        //                 <NavDropdown.Item href="#finances"><FaDollarSign /> Finances</NavDropdown.Item>
-        //             </NavDropdown> */}
-        //             <button onClick={() => handleLogoutClick()}>Logout</button>
-        //         </Nav>
-        //     </Navbar.Collapse>
-        // </Navbar>
         <div>
+            {/* Site title with logo */}
             <h1 style={{
-            paddingTop:"5px",
-            paddingBottom:"5px",
-            fontSize:"3.5rem",
-            textAlign: "center",
-            fontFamily: 'Verdana, sans-serif'
-            }}>Doggio
-            <FaDog/>
-            </h1> 
-            <div class="ui secondary pointing menu"
-            style={{
-                marginBottom: "10px",
-                fontSize: "1.4rem"
+                paddingTop: "5px",
+                paddingBottom: "5px",
+                fontSize: "3.5rem",
+                textAlign: "center",
+                fontFamily: 'Verdana, sans-serif'
             }}>
-            <a class="active item">
-                <Nav.Link as={NavLink} to="/home">
-                    <FaDog /> Home
-                </Nav.Link>
-            </a>
-            <a class="item">
-                <Nav.Link as={NavLink} to="/profile">
-                    <FaUser /> Profile
-                </Nav.Link>
-            </a>
-            <a class="item">
-                <Nav.Link as={NavLink} to="/messages">
-                    <FaEnvelope /> Messages
-                </Nav.Link>
-            </a>
-                    <a class="item">
-                <Nav.Link as={NavLink} to="/favorites">
-                    <FaHeart /> Favorites
-                </Nav.Link>
-            </a>
+                Doggio <FaDog/>
+            </h1> 
+
+            {/* Navigation menu */}
+            <div class="ui secondary pointing menu"
+                style={{
+                    marginBottom: "10px",
+                    fontSize: "1.4rem"
+                }}>
+                {/* Home link */}
+                <a class="active item">
+                    <Nav.Link as={NavLink} to="/home">
+                        <FaDog /> Home
+                    </Nav.Link>
+                </a>
+
+                {/* Profile link */}
+                <a class="item">
+                    <Nav.Link as={NavLink} to="/profile">
+                        <FaUser /> Profile
+                    </Nav.Link>
+                </a>
+
+                {/* Messages link */}
+                <a class="item">
+                    <Nav.Link as={NavLink} to="/messages">
+                        <FaEnvelope /> Messages
+                    </Nav.Link>
+                </a>
+
+                {/* Favorites link */}
+                <a class="item">
+                    <Nav.Link as={NavLink} to="/favorites">
+                        <FaHeart /> Favorites
+                    </Nav.Link>
+                </a>
+
+                {/* Logout button aligned to the right */}
                 <div class="right menu">
-                <a class="ui item" onClick={() => handleLogoutClick()}>
-                    <b>Logout</b>
-            </a>
-            </div>
+                    <a class="ui item" onClick={() => handleLogoutClick()}>
+                        <b>Logout</b>
+                    </a>
+                </div>
             </div>
         </div>
     )

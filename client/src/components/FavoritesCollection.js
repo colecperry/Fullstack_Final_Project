@@ -1,3 +1,11 @@
+/**
+ * FavoritesCollection.js
+ *
+ * This component fetches all favorite dogs from the backend and filters them
+ * down to only the favorites belonging to the currently logged-in user.
+ * It then renders a card for each of the user's favorite dogs using the FavoritesCard component.
+ */
+
 import React from "react";
 import { useEffect, useState } from "react";
 import { userState } from "../recoil/atoms";
@@ -8,85 +16,41 @@ import FavoritesCard from "./FavoritesCard";
 import { useParams } from "react-router-dom";
 
 function FavoritesCollection() {
+    // State to store all favorite dog records
     const [dogFavorites, setDogFavorites] = useState([]);
+
+    // Get the current user from global state (Recoil)
     const user = useRecoilValue(userState)
 
-    // useEffect(()=> { 
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch('/favorites'); // Replace '/api/data' with your actual API path
-    //             const allFavorites = await response.json();
-    //             const favorites = allFavorites.filter((obj) => obj?.user_id == user.id);
-    //             setDogFavorites(favorites)
-    //             // console.log(id)
-    //             console.log("Favorites:", favorites);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //             }
-    //         };
-    //         fetchData();
-    //     }, []);
+    // Fetch all favorites when the component mounts
+    useEffect(() => {
+        fetch("https://doggio.onrender.com/favorites")
+            .then(r => r.json())
+            .then(favorites => setDogFavorites(favorites))
+    }, [])
 
-    
+    // Filter the favorites to include only the ones belonging to the logged-in user
+    const favoriteCollection = dogFavorites.filter((favorite) => favorite.user.id == user.id)
 
-        useEffect(()=> {
-            fetch("https://doggio.onrender.com/favorites")
-            .then(r=>r.json())
-            .then(favorites=>setDogFavorites(favorites))
-        }, [])
+    // Render a card for each favorite
+    const renderFavorites = favoriteCollection?.map((dogFavorite) => {
+        return <FavoritesCard dogFavorite={dogFavorite} key={dogFavorite.id} />;
+    });
 
-        // console.log("user.id", user.id)
-        // console.log("dogFavorites", dogFavorites)
-
-        const favoriteCollection = dogFavorites.filter((favorite) => favorite.user.id == user.id)
-
-        // console.log("filteredDogs", favoriteCollection)
-
-
-        const renderFavorites = favoriteCollection?.map((dogFavorite) => {
-            return <FavoritesCard dogFavorite={dogFavorite} key={dogFavorite.id} />;
-        });
-
-        // const fetchDog = async (dog_id) => {
-        //     try {
-        //         const response = await fetch(`/dogs/${dog_id}`)
-        //         const dog = await response.json();
-        //         console.log("dog_id:", dog_id)
-        //         // return dog
-        //     }
-        //     catch (error) {
-        //         console.error('Error fetching data:', error)}
-        // }
-
-        // const renderDogs = dogFavorites?.map((dog) => {
-        //     // const render_dog = fetchDog(dog.id)
-        //     // return <DogCard dog={render_dog} key={dog.id} />;
-        // });
-        // console.log(renderDogs)
-    
-        return (
-            // <div>
-            //     <Card.Group itemsPerRow={4}>
-            //     {renderFavorites}
-            //     </Card.Group>
-            // </div>
-        
-
+    return (
         <div>
-        <h1 style={{fontFamily: 'Verdana, sans-serif'}}>Favorites</h1>
-            <div class="ui link cards"
-            style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            }}
+            <h1 style={{ fontFamily: 'Verdana, sans-serif' }}>Favorites</h1>
+            <div className="ui link cards"
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
             >
-            {renderFavorites}
+                {renderFavorites}
             </div>
         </div>
-        );
-    }
-
-
+    );
+}
 
 export default FavoritesCollection;

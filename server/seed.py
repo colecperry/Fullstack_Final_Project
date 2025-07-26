@@ -1,12 +1,21 @@
+"""
+seed.py
+
+This script populates the database with synthetic data for testing and development.
+It generates users and dogs (with optional messaging and favorites) using Faker for random values,
+and dog.ceo's API to fetch random dog images. This helps simulate real-world usage during development.
+"""
+
 from random import randint, choice as rc
 from faker import Faker
 from app import app
 import requests
 from models import db, Dog, User, Message, Favorite
-import ipdb;
+import ipdb
 
 fake = Faker()
 
+# Lists of possible names and attributes for dogs
 female_dog_names = [
     "Luna", "Bella", "Lucy", "Daisy", "Lola", "Sadie", "Molly", "Maggie", "Bailey", "Sophie",
     "Chloe", "Stella", "Penny", "Zoe", "Coco", "Roxy", "Rosie", "Ruby", "Gracie", "Willow",
@@ -39,6 +48,7 @@ popular_dog_breeds = [
     "Akita", "Affenpinscher", "Afghan Hound", "Airedale", "Beagle", "Boxer", "Chihuahua", "Cockapoo", "Dalmatian", "Doberman", "Husky", "Labrador", "Maltese", "Pitbull", "Pomeranian", "Pug", "Rottweiler", "Shiba", "Shihtzu", "Spanish Waterdog"
 ]
 
+# Optional sub-breed structure (currently unused but structured for flexibility)
 breed_sub_breeds = {
     "Akita": [],
     "Affenpinscher": [],
@@ -61,7 +71,7 @@ breed_sub_breeds = {
     "Shihtzu": [],
     "Spanish Waterdog": []
 }
-
+# Descriptions for each breed, used to auto-fill dog bios
 breed_descriptions = {
     "Akita": "The Akita is a powerful and dignified breed known for its loyalty and courage. With a strong, muscular build and a thick double coat, they are well-suited for colder climates. Akitas are independent and make devoted companions and guardians.",
     "Affenpinscher": "The Affenpinscher is a small but confident breed with a mischievous and comical personality. They have a distinctive wiry coat and a monkey-like expression that adds to their charm. Affenpinschers are spirited and intelligent, making them excellent watchdogs and delightful family pets.",
@@ -85,46 +95,45 @@ breed_descriptions = {
     "Spanish Waterdog": "The Spanish Waterdog is a versatile and intelligent breed originally bred for herding and retrieving in the Spanish countryside. With a curly and wooly coat, they are both hypoallergenic and distinctive in appearance. Spanish Waterdogs are active and trainable, excelling in various dog sports and forming strong bonds with their families."
 }
 
-
+# Function to seed dog records into the database
 def seed_dogs():
-    random_price = randint(20, 100) * 50
+    random_price = randint(20, 100) * 50  # Generate a random price baseline
+
     for i in range(100):
         dog_breed = rc(popular_dog_breeds)
         sub_breeds = breed_sub_breeds.get(dog_breed, [])
         father_breed = dog_breed if not sub_breeds else rc(sub_breeds)
         mother_breed = dog_breed if not sub_breeds else rc(sub_breeds)
-        
-        dog_gender = rc(['M', 'F'])  # Define dog_gender variable
-        
-        if dog_gender == 'M':
-            dog_name = rc(male_dog_names)
-        else:
-            dog_name = rc(female_dog_names)
+
+        # Randomly assign gender and then pick name accordingly
+        dog_gender = rc(['M', 'F'])
+        dog_name = rc(male_dog_names) if dog_gender == 'M' else rc(female_dog_names)
 
         dog_description = breed_descriptions.get(dog_breed, "")
 
+        # Build image URL from external dog API depending on breed name structure
         breed = dog_breed.split(" ")
-        # print(breed)
         if len(breed) == 1:
             response = requests.get(f"https://dog.ceo/api/breed/{dog_breed.lower()}/images/random")
-        else: 
-            reversed_breed = breed.reverse()
-            # print(reversed_breed)
+        else:
+            breed.reverse()
             join_breed = "/".join(breed)
-            print(join_breed.lower())
             response = requests.get(f"https://dog.ceo/api/breed/{join_breed.lower()}/images/random")
+
         if response.status_code == 200:
             data = response.json()
             image_url = data['message']
+        else:
+            image_url = ''  # Fallback in case of error
 
-
+        # Create a new Dog object with all relevant fields
         new_dog = Dog(
             breeder_id=randint(1, 10),
             dog_name=dog_name,
             dog_image=image_url,
             dog_breed=dog_breed,
             dog_age=str(randint(1, 15)) + ' weeks',
-            dog_gender=dog_gender,  # Assign dog_gender
+            dog_gender=dog_gender,
             dog_weight=str(randint(1, 10)) + ' lbs',
             dog_color=rc(dog_hair_colors),
             dog_price=round(random_price / 50) * 50,
@@ -142,8 +151,7 @@ def seed_dogs():
         db.session.add(new_dog)
     db.session.commit()
 
-
-
+# Function to seed user records into the database
 def seed_users():
     for i in range(10):
         new_user = User(
@@ -156,48 +164,13 @@ def seed_users():
             user_state=fake.state(),
             user_zip_code=fake.postcode()
         )
-        new_user.password_hash = new_user.user_email + 'passwordSalt'
+        new_user.password_hash = new_user.user_email + 'passwordSalt'  # Simple placeholder password logic
         db.session.add(new_user)
     db.session.commit()
 
-# def seed_messages():
-#     users = User.query.all()
 
-#     for user in users:
-#         dog_id = randint(1,100),
-#         new_message1 = Message(
-#             message_sender_id = user.id,
-#             message_receiver_id = randint(1,10),
-#             dog_id = dog_id[0],
-#             message_body = f"Hey, I am {user.id} interested in your dog with the id of {dog_id}! "
-            
-#         )
-#         db.session.add(new_message1)
-#     db.session.commit()
-
-# def seed_messages(user_id):
-#     dogs = Dog.query.all()
-#     for dog in dogs:
-#         new_message = Message(
-#             message_sender_id=user_id,
-#             message_body = "Hey, I'm interested in your dog! Could you please send me more information?",
-#             dog_id=dog.id,
-#         )
-#         db.session.add(new_message)
-#     db.session.commit()
-
-# def seed_favorites():
-#     for i in range(500):
-#         new_favorite = Favorite(
-#             user_id = randint(1,100),
-#             dog_id = randint(1,100)
-#         )
-#         db.session.add(new_favorite)
-#     db.session.commit()
-
-
+# Main script logic for seeding
 if __name__ == '__main__':
-
     with app.app_context():
         print('Clearing old data...')
         Dog.query.delete()
@@ -205,17 +178,15 @@ if __name__ == '__main__':
         Message.query.delete()
         Favorite.query.delete()
         db.session.commit()
+
         print('Seeded users')
         seed_users()
+
         print('Seeding...')
         seed_dogs()
         print('Seeded dogs')
+
         # seed_messages()
-        # print('Seeded messages')
         # seed_favorites()
-        # print('Seeded favorites')
+
         print('Done!')
-
-        # ipdb.set_trace()
-
-
